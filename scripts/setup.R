@@ -5,7 +5,8 @@
 
 ### setup ===============
 
+library(here)
+
+here()
+
 library(tidyverse)
-library(ape)
-library(phytools)
-library(ggtree)
