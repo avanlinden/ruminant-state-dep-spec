@@ -1,0 +1,73 @@
+#NEXUS
+
+
+BEGIN TAXA;
+	TITLE Taxa;
+	DIMENSIONS NTAX=52;
+	TAXLABELS
+		KillerWhale LesserMouseDeer Pronghorn Okapi Giraffe RoeDeer WhiteTailedDeer Reindeer MuntiacusReevesi MuntiacusCrinifrons MuntiacusMuntjak Daviddeer WhiteLippedDeer ForestMuskDeer LesserKudu Bushbuck Sitatunga MountainNyala Bongo GreaterKudu CommonEland AfricanBuffalo Cattle Yak Suni Impala Klipspringer RoyalAntelope MaxwellsDuiker HarveysDuiker CommonDuiker KirksDik Steenbok GazellaPrzewalskyi Oribi ThomsonGazelle GyrantGazelle Gerenuk Springbuck DefassaWaterbuck BohorReedbuck Gemsbok BlueWildebeest Hartebeest Topi TibetanAntelope Ibex goat BlueSheep BarbarySheep Sheep Argali 
+	;
+END;
+
+
+BEGIN TREES;
+	Title 'ML_WGS_Tree_Div_Times';
+	LINK Taxa = Taxa;
+	TRANSLATE
+[0] 		1 KillerWhale,
+[1] 		2 LesserMouseDeer,
+[2] 		3 Pronghorn,
+[3] 		4 Okapi,
+[4] 		5 Giraffe,
+[5] 		6 RoeDeer,
+[6] 		7 WhiteTailedDeer,
+[7] 		8 Reindeer,
+[8] 		9 MuntiacusReevesi,
+[9] 		10 MuntiacusCrinifrons,
+[10] 		11 MuntiacusMuntjak,
+[11] 		12 Daviddeer,
+[12] 		13 WhiteLippedDeer,
+[13] 		14 ForestMuskDeer,
+[14] 		15 LesserKudu,
+[15] 		16 Bushbuck,
+[16] 		17 Sitatunga,
+[17] 		18 MountainNyala,
+[18] 		19 Bongo,
+[19] 		20 GreaterKudu,
+[20] 		21 CommonEland,
+[21] 		22 AfricanBuffalo,
+[22] 		23 Cattle,
+[23] 		24 Yak,
+[24] 		25 Suni,
+[25] 		26 Impala,
+[26] 		27 Klipspringer,
+[27] 		28 RoyalAntelope,
+[28] 		29 MaxwellsDuiker,
+[29] 		30 HarveysDuiker,
+[30] 		31 CommonDuiker,
+[31] 		32 KirksDik,
+[32] 		33 Steenbok,
+[33] 		34 GazellaPrzewalskyi,
+[34] 		35 Oribi,
+[35] 		36 ThomsonGazelle,
+[36] 		37 GyrantGazelle,
+[37] 		38 Gerenuk,
+[38] 		39 Springbuck,
+[39] 		40 DefassaWaterbuck,
+[40] 		41 BohorReedbuck,
+[41] 		42 Gemsbok,
+[42] 		43 BlueWildebeest,
+[43] 		44 Hartebeest,
+[44] 		45 Topi,
+[45] 		46 TibetanAntelope,
+[46] 		47 Ibex,
+[47] 		48 goat,
+[48] 		49 BlueSheep,
+[49] 		50 BarbarySheep,
+[50] 		51 Sheep,
+[51] 		52 Argali;
+	TREE 'Chen2019_divergence_times' = (1:54.41,(2:36,((3:20.25,(4:10.21,5:10.21):10.04):1.0300000000000011,(((6:9,(7:4.95,8:4.95):4.05):1.5099999999999998,((12:4.36,13:4.36):4.72,(9:3.19,(10:1.98,11:1.98):1.21):5.890000000000001):1.4299999999999997):9.819999999999999,(14:18.81,(((15:6.38,((16:4.88,(17:4.29,(18:3.7,19:3.7):0.5899999999999999):0.5899999999999999):0.4900000000000002,(20:4.84,21:4.84):0.5300000000000002):1.0099999999999998):7.46,(22:9.98,(23:3,24:3):6.98):3.8599999999999994):2.7600000000000016,((25:12.57,26:12.57):1.2300000000000004,(((27:11.89,28:11.89):0.8999999999999986,((29:7.69,(30:5.9,31:5.9):1.79):4.72,((32:7.78,33:7.78):0.8199999999999994,(34:8.08,(35:7.32,((36:2.93,37:2.93):2.97,(38:4.48,39:4.48):1.42):1.42):0.7599999999999998):0.5199999999999996):3.8100000000000005):0.379999999999999):0.39000000000000057,((40:3.82,41:3.82):8.98,((42:8.83,(43:3.23,(44:2.27,45:2.27):0.96):5.6):2.0999999999999996,(46:8.2,((51:1.74,52:1.74):4.41,(50:5.47,(49:4.29,(47:2.24,48:2.24):2.05):1.1799999999999997):0.6800000000000006):2.049999999999999):2.7300000000000004):1.870000000000001):0.379999999999999):0.620000000000001):2.8000000000000007):2.2099999999999973):1.5199999999999996):0.9500000000000028):14.719999999999999):18.409999999999997);
+END;
+
+
+
