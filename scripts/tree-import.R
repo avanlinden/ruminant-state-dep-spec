@@ -6,6 +6,17 @@
 
 library(ape)
 
-rumTree <- read.nexus(here("trees/chen2019-ruminant-WGS-ML-divtimes.nex"))
+chenTree <- read.nexus(here("trees/chen2019-ruminant-WGS-ML-divtimes.nex"))
 
-plot(rumTree)
+#check
+plot(chenTree)
+
+#extract tip names
+
+write_csv(as.data.frame(chenTree$tip.label), here("raw-data/raw-tip-labels.csv"), quote_escape = "double")
+
+# reimport scientific tip names
+
+chenNames <- read_csv(here("raw-data/sci-names-tip-labels.csv"))
+
+chenNames
