@@ -17,6 +17,7 @@ write_csv(as.data.frame(chenTree$tip.label), here("raw-data/raw-tip-labels.csv")
 
 # reimport scientific tip names
 
-chenNames <- read_csv(here("raw-data/sci-names-tip-labels.csv"))
+chenNames <- read_csv(here("raw-data/sci-names-tip-labels.csv")) %>% 
+  rename("common" = 1, "species" = 2)
 
 chenNames
