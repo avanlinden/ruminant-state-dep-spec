@@ -5,25 +5,19 @@
 data <- read_csv(here("raw-data/ruminant-size-data.csv")) %>% 
   select("species" = 1, "bibi" = 2, "mkg" = 3, "fkg" = 4)
 
+#read in Chen tree Names
 
-# join chen tips
+chenNames <- read_csv(here("raw-data/sci-names-tip-labels.csv")) %>% 
+  rename("common" = 1, "species" = 2)
+
+# join chen tip names to size data, remove Orca
 
 tipData <- data %>% 
   full_join(chenNames, by = "species") %>% 
   mutate(chen = ifelse(is.na(common), NA, species)) %>% 
   dplyr::filter(!str_detect(species, "Orcinus orca"))
  
-#relabel chen tree with actual names
-
-chenTree$tip.label <- chenNames$species
-
-plot(chenTree)
-
-#drop killer whale 
-
-chenTree <- drop.tip(chenTree, "Orcinus orca")
-
-# separate chen data
+# separate data from species on Chen tree
 
 chenData <- tipData %>% 
   dplyr::filter(!(is.na(chen))) %>% 
@@ -40,7 +34,7 @@ missing$mkg <- c(204.2, 13, 102, 30)
 missing$fkg <- c(125, 14.7, 60.2, 20)
 
 
-##rejoin missing data
+##rejoin missing data, create sdratio and dimorphic/monomorphic categories
 
 chenSize <- chenData %>% 
   left_join(missing, by = "species") %>% 
@@ -52,3 +46,7 @@ chenSize <- chenData %>%
   mutate(sd20 = ifelse(sdratio >= 0.2, "dimorphic", "monomorphic"),
        sd15 = ifelse(sdratio >= 0.15, "dimorphic", "monomorphic"),
        sd10 = ifelse(sdratio >= 0.1, "dimorphic", "monomorphic"))
+
+# write CSV with size data
+
+write_csv(chenSize, here("tidy-data/chen-body-mass-data-sdratio.csv"))

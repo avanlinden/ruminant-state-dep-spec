@@ -32,7 +32,7 @@ chenTree <- drop.tip(chenTree, "Orcinus orca")
 
 ## save pruned and renamed tree
 
-write.nexus(chenTree, file = "tidy-Chen-tree.nex")
+write.nexus(chenTree, file = here("trees/tidy-Chen-tree.nex"))
 
 
 
