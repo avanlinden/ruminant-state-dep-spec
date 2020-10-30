@@ -39,7 +39,6 @@ missing$mkg <- c(204.2, 13, 102, 30)
 
 missing$fkg <- c(125, 14.7, 60.2, 20)
 
-missing
 
 ##rejoin missing data
 
@@ -53,17 +52,3 @@ chenSize <- chenData %>%
   mutate(sd20 = ifelse(sdratio >= 0.2, "dimorphic", "monomorphic"),
        sd15 = ifelse(sdratio >= 0.15, "dimorphic", "monomorphic"),
        sd10 = ifelse(sdratio >= 0.1, "dimorphic", "monomorphic"))
-
-
-#ancestral state reconstruction
-
-#discrete models
-
-#even rates
-aceChen20_ER <- ace(x = chenSize$sd20, phy = chenTree, type = "discrete", marginal = TRUE)
-
-
-i
-
-
-
