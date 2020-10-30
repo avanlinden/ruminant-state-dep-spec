@@ -20,4 +20,20 @@ write_csv(as.data.frame(chenTree$tip.label), here("raw-data/raw-tip-labels.csv")
 chenNames <- read_csv(here("raw-data/sci-names-tip-labels.csv")) %>% 
   rename("common" = 1, "species" = 2)
 
-chenNames
+#relabel chen tree with actual names
+
+chenTree$tip.label <- chenNames$species
+
+plot(chenTree)
+
+#drop killer whale 
+
+chenTree <- drop.tip(chenTree, "Orcinus orca")
+
+## save pruned and renamed tree
+
+write.nexus(chenTree, file = "tidy-Chen-tree.nex")
+
+
+
+

@@ -1,0 +1,115 @@
+#NEXUS
+[R-package APE, Fri Oct 30 07:14:39 2020]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX = 51;
+	TAXLABELS
+		Tragulus javanicus
+		Antilocapra americana
+		Okapia johnstoni
+		Giraffa camelopardalis
+		Capreolus capreolus
+		Odocoileus virginianus
+		Rangifer tarandus
+		Muntiacus reevesi
+		Muntiacus crinifrons
+		Muntiacus muntjak
+		Elaphurus davidianus
+		Cervus albirostris
+		Moschus berezovskii
+		Tragelaphus imberbis
+		Tragelaphus scriptus
+		Tragelaphus spekei
+		Tragelaphus buxtoni
+		Tragelaphus eurycerus
+		Tragelaphus strepsiceros
+		Tragelaphus oryx
+		Syncerus caffer
+		Bos taurus
+		Bos grunniens
+		Neotragus moschatus
+		Aepyceros melampus
+		Oreotragus oreotragus
+		Neotragus pygmaeus
+		Philantomba maxwellii
+		Cephalophus harveyi
+		Sylvicapra grimmia
+		Madoqua kirkii
+		Raphicerus campestris
+		Procapra przewalskii
+		Ourebia ourebi
+		Eudorcas thomsonii
+		Nanger granti
+		Litocranius walleri
+		Antidorcas marsupialis
+		Kobus ellipsiprymnus
+		Redunca redunca
+		Oryx gazella
+		Connochaetes taurinus
+		Alcelaphus buselaphus
+		Damaliscus lunatus
+		Pantholops hodgsonii
+		Capra ibex
+		Capra hircus
+		Pseudois nayaur
+		Ammotragus lervia
+		Ovis aries
+		Ovis ammon
+	;
+END;
+BEGIN TREES;
+	TRANSLATE
+		1	Tragulus javanicus,
+		2	Antilocapra americana,
+		3	Okapia johnstoni,
+		4	Giraffa camelopardalis,
+		5	Capreolus capreolus,
+		6	Odocoileus virginianus,
+		7	Rangifer tarandus,
+		8	Muntiacus reevesi,
+		9	Muntiacus crinifrons,
+		10	Muntiacus muntjak,
+		11	Elaphurus davidianus,
+		12	Cervus albirostris,
+		13	Moschus berezovskii,
+		14	Tragelaphus imberbis,
+		15	Tragelaphus scriptus,
+		16	Tragelaphus spekei,
+		17	Tragelaphus buxtoni,
+		18	Tragelaphus eurycerus,
+		19	Tragelaphus strepsiceros,
+		20	Tragelaphus oryx,
+		21	Syncerus caffer,
+		22	Bos taurus,
+		23	Bos grunniens,
+		24	Neotragus moschatus,
+		25	Aepyceros melampus,
+		26	Oreotragus oreotragus,
+		27	Neotragus pygmaeus,
+		28	Philantomba maxwellii,
+		29	Cephalophus harveyi,
+		30	Sylvicapra grimmia,
+		31	Madoqua kirkii,
+		32	Raphicerus campestris,
+		33	Procapra przewalskii,
+		34	Ourebia ourebi,
+		35	Eudorcas thomsonii,
+		36	Nanger granti,
+		37	Litocranius walleri,
+		38	Antidorcas marsupialis,
+		39	Kobus ellipsiprymnus,
+		40	Redunca redunca,
+		41	Oryx gazella,
+		42	Connochaetes taurinus,
+		43	Alcelaphus buselaphus,
+		44	Damaliscus lunatus,
+		45	Pantholops hodgsonii,
+		46	Capra ibex,
+		47	Capra hircus,
+		48	Pseudois nayaur,
+		49	Ammotragus lervia,
+		50	Ovis aries,
+		51	Ovis ammon
+	;
+	TREE * UNTITLED = [&R] (1:36,((2:20.25,(3:10.21,4:10.21):10.04):1.03,(((5:9,(6:4.95,7:4.95):4.05):1.51,((11:4.36,12:4.36):4.72,(8:3.19,(9:1.98,10:1.98):1.21):5.89):1.43):9.82,(13:18.81,(((14:6.38,((15:4.88,(16:4.29,(17:3.7,18:3.7):0.59):0.59):0.49,(19:4.84,20:4.84):0.53):1.01):7.46,(21:9.98,(22:3,23:3):6.98):3.86):2.76,((24:12.57,25:12.57):1.23,(((26:11.89,27:11.89):0.9,((28:7.69,(29:5.9,30:5.9):1.79):4.72,((31:7.78,32:7.78):0.82,(33:8.08,(34:7.32,((35:2.93,36:2.93):2.97,(37:4.48,38:4.48):1.42):1.42):0.76):0.52):3.81):0.38):0.39,((39:3.82,40:3.82):8.98,((41:8.83,(42:3.23,(43:2.27,44:2.27):0.96):5.6):2.1,(45:8.2,((50:1.74,51:1.74):4.41,(49:5.47,(48:4.29,(46:2.24,47:2.24):2.05):1.18):0.68):2.05):2.73):1.87):0.38):0.62):2.8):2.21):1.52):0.95):14.72);
+END;
