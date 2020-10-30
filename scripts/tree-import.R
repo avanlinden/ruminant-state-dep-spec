@@ -34,6 +34,6 @@ chenTree <- drop.tip(chenTree, "Orcinus orca")
 
 write.nexus(chenTree, file = here("trees/tidy-Chen-tree.nex"))
 
-
+write.tree(chenTree, file = here("trees/tidy-chen-tree.tre"))
 
 
