@@ -45,6 +45,4 @@ fisseChensd20 <- FISSE.binary(tree, sd20)
 pval_2tailed   <- min(fisseChensd20$pval, 1-fisseChensd20$pval)*2
 
 
-
-
-\
+## ^^ this should probably be a function wrapper so I can batch run them
