@@ -9,3 +9,8 @@ library(here)
 
 library(tidyverse)
 
+library(ape)
+
+library(phangorn)
+
+library(diversitree)

@@ -1,64 +1,25 @@
-#setup
 
-library(ape)
-library(diversitree)
-library(phangorn)
+### running a FISSE analysis on sexual dimorphism data using dimorphFISSE wrapper function
 
-source(here("fisse-scripts/traitDependent_functions.R"))
 
-tree <- read.tree(here("trees/tidy-chen-tree.tre"))
+# load clean tree and data -- tips must equal data rows
+
+chenTree <- read.tree(here("trees/tidy-chen-tree.tre"))
 
 data <- read_csv(here("tidy-data/chen-body-mass-data-sdratio.csv"))
 
 #adjust species name notation to match tree
+
 data <- mutate(data, species = str_replace(species, " ", "_"))
 
-# separate out SD20 and convert to binary (1 = dimorphic, 0 = monomorphic)
-# note: not playing well with tibbles
+#source wrapper function
+source(here("scripts/ssd-fisse-wrapper-function.R"))
 
-#trait values needs to be an integer vector
-# deframe converts to named vector
+#calculate FISSE p-values for different sexual dimorphism ratio thresholds
 
-sd20 <- data %>% 
-  select(species, sd20) %>% 
-  mutate(sd20 = as.integer(if_else(sd20 == "dimorphic", 1, 0))) %>% 
-  deframe() 
+chen_sd20 <- dimorphFISSE(chenTree, data, 0.2)
 
-#bingo
-str(sd20)
+chen_sd15 <- dimorphFISSE(chenTree, data, 0.15)
 
-# function to get binary data from  specified sexual dimorphism ratio threshold
-# function inputs: tibble with species names and sdratio, ratio threshold number between 0 and 1
+chen_sd10 <- dimorphFISSE(chenTree, data, 0.1)
 
-getBinarySD <- function(data, threshold) {
-  
-  binSD <- data %>% 
-    mutate(binary = as.integer(if_else(sdratio >= threshold, 1, 0))) %>% 
-    select(species, binary) %>% 
-    deframe()
-}
-
-sd_02 <- getBinarySD(data, threshold = 0.2)
-
-# sort traits by tree tip labels
-
-sd20 <- sd20[tree$tip.label]
-
-# plot tree with tip traits
-
-colvec <- rep("white", length(sd20))
-colvec[sd20 == 1] <- "black"
-
-quartz.options(height=12, width=12)
-plot.phylo(tree, type = "fan", show.tip.label=F)
-tiplabels(pch=21, bg=colvec, cex=0.8)
-
-### FISSEE binary function with default arguments =================
-
-fisseChensd20 <- FISSE.binary(tree, sd20)
-
-chensd20_pval_2tailed   <- min(fisseChensd20$pval, 1-fisseChensd20$pval)*2
-
-fisseChensd15 <- FISSE.binary(tree, sd15)
-
-## ^^ this should probably be a function wrapper so I can batch run them
