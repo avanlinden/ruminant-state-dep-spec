@@ -10,6 +10,9 @@ tree <- read.tree(here("trees/tidy-chen-tree.tre"))
 
 data <- read_csv(here("tidy-data/chen-body-mass-data-sdratio.csv"))
 
+#adjust species name notation to match tree
+data <- mutate(data, species = str_replace(species, " ", "_"))
+
 # separate out SD20 and convert to binary (1 = dimorphic, 0 = monomorphic)
 # note: not playing well with tibbles
 
@@ -18,12 +21,24 @@ data <- read_csv(here("tidy-data/chen-body-mass-data-sdratio.csv"))
 
 sd20 <- data %>% 
   select(species, sd20) %>% 
-  mutate(species = str_replace(species, " ", "_")) %>% 
   mutate(sd20 = as.integer(if_else(sd20 == "dimorphic", 1, 0))) %>% 
   deframe() 
 
 #bingo
 str(sd20)
+
+# function to get binary data from  specified sexual dimorphism ratio threshold
+# function inputs: tibble with species names and sdratio, ratio threshold number between 0 and 1
+
+getBinarySD <- function(data, threshold) {
+  
+  binSD <- data %>% 
+    mutate(binary = as.integer(if_else(sdratio >= threshold, 1, 0))) %>% 
+    select(species, binary) %>% 
+    deframe()
+}
+
+sd_02 <- getBinarySD(data, threshold = 0.2)
 
 # sort traits by tree tip labels
 
@@ -42,7 +57,8 @@ tiplabels(pch=21, bg=colvec, cex=0.8)
 
 fisseChensd20 <- FISSE.binary(tree, sd20)
 
-pval_2tailed   <- min(fisseChensd20$pval, 1-fisseChensd20$pval)*2
+chensd20_pval_2tailed   <- min(fisseChensd20$pval, 1-fisseChensd20$pval)*2
 
+fisseChensd15 <- FISSE.binary(tree, sd15)
 
 ## ^^ this should probably be a function wrapper so I can batch run them
