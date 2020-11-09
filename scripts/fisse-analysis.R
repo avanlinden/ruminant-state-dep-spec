@@ -23,3 +23,5 @@ chen_sd15 <- dimorphFISSE(chenTree, data, 0.15)
 
 chen_sd10 <- dimorphFISSE(chenTree, data, 0.1)
 
+
+
