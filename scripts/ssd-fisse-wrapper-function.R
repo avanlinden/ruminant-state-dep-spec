@@ -22,3 +22,4 @@ dimorphFISSE <- function(tree, data, threshold) {
   FISSE.binary(tree, binData)
   
 }
+

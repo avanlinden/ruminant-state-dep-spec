@@ -96,11 +96,11 @@ chenSD20data <- data %>%
 turnover <- c(1,1)
 extinction.fraction <- c(1,1)
 f <- c(1,1)
-trans.rates.bisse <- TransMatMakerHiSSE(hidden.traits=0)
+trans.rates.null <- TransMatMakerHiSSE(hidden.traits=0)
 
 # null model 
 
-chen.null <- hisse(phy=chenTree, data=chenSD20data, f=f, turnover=turnover, eps=extinction.fraction, hidden.states=FALSE, trans.rate=trans.rates.bisse, sann=FALSE)
+chen.null <- hisse(phy=chenTree, data=chenSD20data, f=f, turnover=turnover, eps=extinction.fraction, hidden.states=FALSE, trans.rate=trans.rates.null, sann=FALSE)
 
 # hisse model
 
@@ -111,36 +111,55 @@ f = c(1,1)
 trans.rate.hisse <- TransMatMakerHiSSE(hidden.traits=1)
 print(trans.rate.hisse)
 
-HiSSE <- hisse(phy=chenTree, data=chenSD20data, f=f, turnover=turnover,
+HiSSE.equal <- hisse(phy=chenTree, data=chenSD20data, f=f, turnover=turnover,
                eps=extinction.fraction, hidden.states=TRUE,
-               trans.rate=trans.rate.hisse)
+               trans.rate=trans.rate.hisse.equal)
+
+trans.rate.hisse.equal <- ParEqual(trans.rate.hisse, c(1,2,1,3,1,4,1,5))
+
+chen.HiSSE <- HiSSE
 
 # CID 2 
 
 turnover <- c(1, 1, 2, 2)
 extinction.fraction <- rep(1, 4)
 f = c(1,1)
-trans.rate <- TransMatMakerHiSSE(hidden.traits=1, make.null=TRUE)
+trans.rate.cid2 <- TransMatMakerHiSSE(hidden.traits=1, make.null=TRUE)
 
-chen.HiSSE.cid2 <- hisse(phy=chenTree, data=chenSD20data, f=f, turnover=turnover,
+chen.CID2 <- hisse(phy=chenTree, data=chenSD20data, f=f, turnover=turnover,
                     eps=extinction.fraction, hidden.states=TRUE,
-                    trans.rate=trans.rate.hisse)
+                    trans.rate=trans.rate.cid2)
+
+chen.HiSSE.cid2 <- chen.CID2
 
 # CID 4 - need to read up more on this
 
 turnover <- c(1, 1, 2, 2, 3, 3, 4, 4)
 extinction.fraction <- rep(1, 8)
-trans.rate <- TransMatMakerHiSSE(hidden.traits=3, make.null=TRUE)
+trans.rate.cid4 <- TransMatMakerHiSSE(hidden.traits=3, make.null=TRUE)
+f <- c(1,1)
 
 chen.HiSSE.cid4 <- hisse(phy=chenTree, data=chenSD20data, f=f, turnover=turnover,
                          eps=extinction.fraction, hidden.states=TRUE,
-                         trans.rate=trans.rate.hisse)
+                         trans.rate=trans.rate.cid4)
 
+# true BiSSE
+
+turnover <- c(1,2)
+extinction.fraction <- c(1,1)
+f <- c(1,1)
+trans.rates.bisse <- TransMatMakerHiSSE(hidden.traits = 0)
+
+chen.BiSSE   <- hisse(phy = chenTree, data = chenSD20data, f = f, turnover = turnover, eps = extinction.fraction, hidden.states = FALSE, trans.rate = trans.rates.bisse)
 
 # AICc scores
-
-chen.HiSSE$AICc
-
 chen.null$AICc
-
+chen.BiSSE$AICc
+chen.HiSSE$AICc
 chen.HiSSE.cid2$AICc
+chen.HiSSE.cid4$AICc
+
+#div time estimates?
+
+str(chen.null$solution)
+
