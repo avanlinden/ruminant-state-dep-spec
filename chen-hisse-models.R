@@ -191,7 +191,7 @@ cid4_sd20 <- hisse(
 
 eq.trans.rates.cid4 <- ParEqual(trans.rates.cid4, c(1,2,1,3))
 
-eq.cid4_sd20 <- hisse(
+eq_cid4_sd20 <- hisse(
   phy = tree,
   data = sd20data,
   f = f.cid4,
@@ -202,7 +202,57 @@ eq.cid4_sd20 <- hisse(
   sann = FALSE
 )
 
+### All model results to list ===================
+
+hisseResults <- list(null_sd20, bisse_sd20, hisse_sd20, cid2_sd20, cid4_sd20)
+
+equalRatesResults <- list(eq_null_sd20, eq_bisse_sd20, eq_hisse_sd20, eq_cid2_sd20, eq_cid4_sd20)
+
+fullResults <- list(null_sd20, bisse_sd20, hisse_sd20, cid2_sd20, cid4_sd20, eq_null_sd20, eq_bisse_sd20, eq_hisse_sd20, eq_cid2_sd20, eq_cid4_sd20)
+
+### Extract model params
+
+AIC.vector <- sapply(fullResults, "[[", "AIC")
+AICc.vector <- sapply(fullResults, "[[", "AICc")
 
 
 
+### Compute Model Weights ============
 
+fullWeights <- GetAICWeights(fullResults, criterion = "AIC")
+
+fullModelNames <- c("null_sd20", "bisse_sd20", "hisse_sd20", "cid2_sd20", "cid4_sd20", "eq_null_sd20", "eq_bisse_sd20", "eq_hisse_sd20", "eq_cid2_sd20", "eq_cid4_sd20")
+
+### Combine params and weights
+
+chenHisseResults <- cbind(fullModelNames, AIC.vector, AICc.vector, fullWeights) %>% 
+  as_tibble() %>% 
+  transmute(model = fullModelNames, AIC = as.numeric(AIC.vector), AICc = as.numeric(AICc.vector), AICweights = as.numeric(fullWeights)) %>% 
+  mutate(deltaAIC = AIC - min(AIC)) %>% 
+  mutate(
+    modelType = case_when(
+      str_detect(model, "null") ~ "null",
+      str_detect(model, "bisse") ~ "bisse",
+      str_detect(model, "hisse") ~ "hisse",
+      str_detect(model, "cid2") ~ "cid2",
+      TRUE ~ "cid4")
+  ) %>% 
+  mutate(sdratio = case_when(
+    str_detect(model, "sd20") ~ "0.2",
+    str_detect(model, "sd15") ~ "0.15",
+    str_detect(model, "sd10") ~ "0.10",
+    TRUE ~ NA_character_)
+  ) %>% 
+  mutate(specRates = case_when(
+    str_detect(model, "eq") ~ "equal",
+    TRUE ~ "vary")
+  )
+
+chenHisseResults %>% 
+  group_by(modelType) %>% 
+  summarise(sumWeights = sum(AICweights)) %>% 
+  arrange(desc(sumWeights))
+
+
+
+          
