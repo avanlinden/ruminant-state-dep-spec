@@ -17,11 +17,16 @@ source(here("scripts/ssd-fisse-wrapper-function.R"))
 
 #calculate FISSE p-values for different sexual dimorphism ratio thresholds
 
-chen_sd20 <- dimorphFISSE(chenTree, data, 0.2)
+chen_sd20 <- as_tibble(dimorphFISSE(chenTree, data, 0.2))
 
-chen_sd15 <- dimorphFISSE(chenTree, data, 0.15)
+chen_sd15 <- as_tibble(dimorphFISSE(chenTree, data, 0.15))
 
-chen_sd10 <- dimorphFISSE(chenTree, data, 0.1)
+chen_sd10 <- as_tibble(dimorphFISSE(chenTree, data, 0.1))
 
+chenFisseResults <- chen_sd20 %>% 
+  add_row(chen_sd15) %>% 
+  add_row(chen_sd10) %>% 
+  mutate(sdratio = c(0.2, 0.15, 0.1)) %>% 
+  mutate(pval.2tailed = (1-pval)*2)
 
 
