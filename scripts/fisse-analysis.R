@@ -29,3 +29,4 @@ chenFisseResults <- chen_sd20 %>%
   mutate(sdratio = c(0.2, 0.15, 0.1)) %>% 
   mutate(pval.2tailed = (1-pval)*2)
 
+chenFisseResults

@@ -1,5 +1,4 @@
 
-
 ### 10 different versions of SSE models from the `hisse` package 
 ### dull null; BiSSE; HiSSE; CID2; CID4; plus all of those again with equal transition rates between all states
 ### HiSSE, CID2, and CID4 all have equal transition rates for all hidden states
@@ -210,25 +209,28 @@ equalRatesResults <- list(eq_null_sd20, eq_bisse_sd20, eq_hisse_sd20, eq_cid2_sd
 
 fullResults <- list(null_sd20, bisse_sd20, hisse_sd20, cid2_sd20, cid4_sd20, eq_null_sd20, eq_bisse_sd20, eq_hisse_sd20, eq_cid2_sd20, eq_cid4_sd20)
 
-### Extract model params
+### Extract model params =========
 
 AIC.vector <- sapply(fullResults, "[[", "AIC")
 AICc.vector <- sapply(fullResults, "[[", "AICc")
 
-
-
 ### Compute Model Weights ============
+
+GetAICWeights(hisseResults, criterion = "AIC")
 
 fullWeights <- GetAICWeights(fullResults, criterion = "AIC")
 
+fullCorrWeights <- GetAICWeights(fullResults, criterion = "AICc")
+
 fullModelNames <- c("null_sd20", "bisse_sd20", "hisse_sd20", "cid2_sd20", "cid4_sd20", "eq_null_sd20", "eq_bisse_sd20", "eq_hisse_sd20", "eq_cid2_sd20", "eq_cid4_sd20")
 
-### Combine params and weights
+### Combine params and weights =============
 
-chenHisseResults <- cbind(fullModelNames, AIC.vector, AICc.vector, fullWeights) %>% 
+chenHisseResults <- cbind(fullModelNames, AIC.vector, AICc.vector, fullWeights, fullCorrWeights) %>% 
   as_tibble() %>% 
-  transmute(model = fullModelNames, AIC = as.numeric(AIC.vector), AICc = as.numeric(AICc.vector), AICweights = as.numeric(fullWeights)) %>% 
-  mutate(deltaAIC = AIC - min(AIC)) %>% 
+  transmute(model = fullModelNames, AIC = as.numeric(AIC.vector), AICc = as.numeric(AICc.vector), AICweights = as.numeric(fullWeights), AICcorrWeights = as.numeric(fullCorrWeights)) %>% 
+  mutate(deltaAIC = AIC - min(AIC)) %>%
+  mutate(deltaAICc = AICc - min(AICc)) %>% 
   mutate(
     modelType = case_when(
       str_detect(model, "null") ~ "null",
@@ -250,9 +252,77 @@ chenHisseResults <- cbind(fullModelNames, AIC.vector, AICc.vector, fullWeights) 
 
 chenHisseResults %>% 
   group_by(modelType) %>% 
-  summarise(sumWeights = sum(AICweights)) %>% 
-  arrange(desc(sumWeights))
+  summarise(sumCorrWeights = sum(AICcorrWeights)) %>% 
+  arrange(desc(sumCorrWeights))
+
+chenHisseResults %>% 
+  arrange(deltaAICc)
+
+### Average model parameters =================
+
+# Marginal reconstruction of ancestral states for all models
+# f is the same for all models here
+
+null_sd20_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd20data,
+    f = f.null,
+    pars = null_sd20$solution,
+    hidden.states = 1, 
+    aic = null_sd20$AICc
+  )
+
+bisse_sd20_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd20data,
+    f = f.null,
+    pars = bisse_sd20$solution,
+    hidden.states = 1,
+    aic = bisse_sd20$AICc
+  )
+
+hisse_sd20_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd20data,
+    f = f.null,
+    pars = hisse_sd20$solution,
+    hidden.states = 2,
+    aic = hisse_sd20$AICc
+  )
+
+cid2_sd20_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd20data,
+    f = f.null,
+    pars = cid2_sd20$solution,
+    hidden.states = 2,
+    aic = cid2_sd20$AICc
+  )
+
+cid4_sd20_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd20data,
+    f = f.null,
+    pars = cid4_sd20$solution,
+    hidden.states = 4,
+    aic = cid4_sd20$AICc
+  )
+
+all_recs <- list(null_sd20_rec, bisse_sd20_rec, hisse_sd20_rec, cid2_sd20_rec, cid4_sd20_rec)
+
+### Plot results ===============
+
+plot.hisse.states(all_recs, rate.param = "net.div", type = "phylogram", fsize = 0.8, width.factor = 0.5, legend = "none")
+
+plot.hisse.states(cid4_sd20_rec, rate.param = "turnover", type = "phylogram", fsize = 0.8, legend = "none", width.factor = 0.4)
 
 
 
-          
+
+
+
