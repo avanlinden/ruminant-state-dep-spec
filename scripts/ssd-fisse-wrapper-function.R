@@ -18,8 +18,8 @@ dimorphFISSE <- function(tree, data, threshold) {
   #sort binary state data by tree tip labels
   binData <- binData[tree$tip.label]
   
-  #run FISSE functions with default parameters
-  FISSE.binary(tree, binData)
+  #run FISSE functions with 10000 simulations
+  FISSE.binary(tree, binData, reps = 10000)
   
 }
 
