@@ -1,0 +1,128 @@
+Genus and species,Bibi Genus_species,Male Body Mass (kg),Female Body Mass (kg),SD ratio (xm - xf/ x-bar)
+Addax nasomaculatus,Addax_nasomaculatus,117.7,84.7,0.326086957
+Aepyceros melampus,            Aepyceros_melampus,56.9,43.8,0.260178749
+Alcelaphus buselaphus,            Alcelaphus_buselaphus_buselaphus,152.1,144.6,0.050556117
+Alcelaphus lichtensteini,            Alcelaphus_buselaphus_lichtensteinii,178.3,162.7,0.091495601
+Alces alces,            Alces_alces,510.2,358.8,0.34844649
+Ammotragus lervia,            Ammotragus_lervia_FJ207522,111.8,51.6,0.736842105
+Antidorcas marsupialis,            Antidorcas_marsupialis,40.7,35.5,0.13648294
+Antilocapra americana,            Antilocapra_americana,56.2,49.8,0.120754717
+Antilope cervicapra,            Antilope_cervicapra,40.2,34.4,0.155495979
+Arabitragus jayakari,            Arabitragus_jayakari_FJ207523,40,18,
+Axis axis,            Axis_axis,44.1,30.6,0.361445783
+Bison bison,            Bison_bison,795.3,452.8,0.548834228
+Bison bonasus,            Bison_bonasus,718,423,0.517090272
+Bos gaurus,            Bos_gaurus,848.4,701.9,0.188995678
+Bos grunniens,            Bos_grunniens_NC006380,590.5,306,0.634690463
+Bos javanicus,            Bos_javanicus_birmanicus,750,450,0.5
+,            Bos_javanicus_javanicus,,,
+Bos taurus,            Bos_taurus_indicus_EU177868,384,327.5,0.158819396
+,            Bos_taurus_taurus_EU177832,,,
+Boselaphus tragocamelus,            Boselaphus_tragocamelus,253.3,136.3,0.600616016
+Bubalus bubalis,            Bubalus_bubalis_bubalis_AF547270,1200,800,0.4
+,            Bubalus_bubalis_carabanesis,,,
+Bubalus depressicornis,            Bubalus_depressicornis,156,145,0.073089701
+Budorcas taxicolor,            Budorcas_taxicolor_FJ207524,282.7,160,0.554325728
+Capra caucasica,            Capra_caucasica,86.3,55,0.443029016
+Capra falconeri,            Capra_falconeri_FJ207525,92.7,36.3,0.874418605
+Capra hircus,            Capra_hircus,53,38.6,0.31441048
+Capra ibex,            Capra_ibex_FJ207526,80.5,48.9,0.488408037
+Capra nubiana,            Capra_nubiana_FJ207527,62.5,26.5,
+Capra pyrenaica,            Capra_pyrenaica_FJ207528,72.5,40,0.577777778
+Capra sibirica,            Capra_sibirica_FJ207529,90,35,
+Capricornis crispus,            Capricornis_crispus_FJ207533,37.5,37.5,
+Capricornis milneedwardsii,            Capricornis_milneedwardsii_FJ207534,112.5,112.5,
+Capricornis swinhoei,            Capricornis_swinhoei_NC010640,23.5,23.5,
+Cephalophus adersi,            Cephalophus_adersi,9.45,8.45,
+Cephalophus callipygus,            Cephalophus_callipygus_1,18.6,18.4,0.010810811
+,            Cephalophus_callipygus_2,,,
+,            Cephalophus_callipygus_3,,,
+Cephalophus dorsalis,            Cephalophus_dorsalis,20.3,19.5,0.040201005
+Cephalophus jentinki,            Cephalophus_jentinki,70.3,80.5,-0.135278515
+Cephalophus leucogaster,            Cephalophus_leucogaster,16.1,17.8,-0.100294985
+Cephalophus harveyi,            Cephalophus_natalensis,13.1,12.1,0.079365079
+Cephalophus nigrifrons,            Cephalophus_nigrifrons,13.3,15,-0.120141343
+Cephalophus ogilbyi,            Cephalophus_ogilbyi,20.4,22.5,-0.097902098
+Cephalophus rufilatus,            Cephalophus_rufilatus,10.1,10.3,-0.019607843
+Cephalophus silvicultor,            Cephalophus_silvicultor,52.5,72,-0.313253012
+Cephalophus spadix,            Cephalophus_spadix,55.6,61.2,-0.095890411
+Cervus elaphus,            Cervus_elaphus_NC007704,185.1,140.2,0.276052874
+Connochaetes gnou,            Connochaetes_gnou,166.7,135,0.210142526
+Connochaetes taurinus,            Connochaetes_taurinus_1,235.3,184.9,0.239885769
+,            Connochaetes_taurinus_2,,,
+Damaliscus pygargus,            Damaliscus_pygargus_FJ207530,72.5,62.5,0.148148148
+Dorcatragus megalotis,            Dorcatragus_megalotis,10,10.7,-0.06763285
+Eudorcas rufifrons,            Eudorcas_rufifrons_1,30.7,28.1,
+,            Eudorcas_rufifrons_2,,,
+Gazella bennettii,            Gazella_bennettii,25,20,
+Gazella cuvieri,            Gazella_cuvieri,29.4,20.4,0.361445783
+Gazella dorcas,            Gazella_dorcas_osiris,16.3,13.3,0.202702703
+,            Gazella_dorcas_pelzelnii,,,
+Gazella gazella,            Gazella_gazella_erlangeri,23.3,20.8,0.113378685
+,            Gazella_gazella_gazella,,,
+Gazella leptoceros,            Gazella_leptoceros,27.2,20.9,0.261954262
+Gazella spekei,            Gazella_spekei,21.3,16.6,0.248021108
+Gazella subgutturosa,            Gazella_subgutturosa_marica,27.3,23,0.170974155
+,            Gazella_subgutturosa_subgutturosa,,,
+Giraffa camelopardalis,            Giraffa_camelopardalis_angolensis_NC012100,1190.2,814.3,0.375056124
+,            Giraffa_camelopardalis_antiquorum,,,
+Hemitragus jemlahicus,            Hemitragus_jemlahicus_FJ207531,103.3,56,0.593848085
+Hippotragus equinus,            Hippotragus_equinus,274.4,256.4,0.067822155
+Hippotragus niger,            Hippotragus_niger,235.2,216.6,0.082337317
+Hydropotes inermis,            Hydropotes_inermis,12.2,13.3,-0.08627451
+Hyemoschus aquaticus,            Hyemoschus_aquaticus,9.8,12,-0.201834862
+Kobus ellipsiprymnus,            Kobus_ellipsiprymnus,236.8,187.3,0.23343551
+Kobus leche,            Kobus_leche,104.3,78.7,0.279781421
+Litocranius walleri,            Litocranius_walleri,35,34.3,0.02020202
+Madoqua kirkii,            Madoqua_kirkii,4.6,5.1,-0.103092784
+Madoqua saltiana,            Madoqua_saltiana,2.3,2.6,-0.12244898
+Moschus berezovskii,            Moschus_berezovskii_NC012694,13,13,
+Moschus moschiferus,            Moschus_moschiferus,13,14.7,-0.122743682
+Muntiacus muntjak,            Muntiacus_muntjak_NC004563,20.9,15.1,0.322222222
+Naemorhedus baileyi,            Naemorhedus_baileyi,25.6,29.05,
+Naemorhedus evansi,            Naemorhedus_griseus_evansi,25,25,
+Naemorhedus goral,            Naemorhedus_griseus_griseus_FJ207532,32,29.9,0.067851373
+Nanger dama,            Nanger_dama,68,51,0.495412844
+Nanger granti,            Nanger_granti,72.1,46,0.441998307
+Nanger soemmerringii,            Nanger_soemmerringii,45.4,33.6,0.298734177
+Neotragus batesi,            Neotragus_batesi,2.4,2.8,-0.153846154
+Nesotragus,            Nesotragus_moschatus,4.8,5.1,-0.060606061
+Odocoileus hemionus,            Odocoileus_hemionus,70.3,46.9,0.399317406
+Okapia johnstoni,            Okapia_johnstoni,200,200,0
+Oreamnos americanus,            Oreamnos_americanus_FJ207535,95.9,61,0.444869344
+Oreotragus oreotragus,            Oreotragus_oreotragus,11.3,13,-0.139917695
+Oryx beisa,            Oryx_beisa,178,166.4,
+Oryx dammah,            Oryx_dammah,200,177.5,0.119205298
+Oryx gazella,            Oryx_gazella,210,202.5,0.067363531
+Oryx leucoryx,            Oryx_leucoryx,85.9,80.1,0.069879518
+Ourebia ourebi,            Ourebia_ourebi,14.1,15.1,-0.068493151
+Ovibos moschatus,            Ovibos_moschatus_FJ207536,356,247.3,0.360351401
+Ovis aries,            Ovis_aries_NC001941,67.9,44.9,0.407801418
+Pantholops hodgsonii,            Pantholops_hodgsonii_NC007441,42.3,25.8,0.484581498
+Pelea capreolus,            Pelea_capreolus,24,25,-0.040816327
+Philantomba maxwelli,            Philantomba_maxwelli,6.5,7.2,
+Philantomba monticola,            Philantomba_monticola_1,4.4,5.1,-0.147368421
+,            Philantomba_monticola_2,,,
+Procapra gutturosa,            Procapra_gutturosa,31.5,24,0.27027027
+Pseudois nayaur,            Pseudois_nayaur_FJ207537,60,39.5,0.412060302
+Pseudoryx nghetinhensis,            Pseudoryx_nghetinhensis,90,90,
+Raphicerus campestris,            Raphicerus_campestris,10.9,11.3,-0.036036036
+Redunca arundinum,            Redunca_arundinum,58.3,43.2,0.297536946
+Redunca fulvorufula,            Redunca_fulvorufula,30.1,28.5,0.054607509
+Rupicapra pyrenaica,            Rupicapra_pyrenaica_FJ207539,23.9,19.8,
+Rupicapra rupicapra,            Rupicapra_rupicapra_FJ207538,40.3,31.7,0.238888889
+Saiga tatarica,            Saiga_tatarica,42.5,32.3,0.272727273
+Sylvicapra grimmia,            Sylvicapra_grimmia,18.3,19.6,-0.068601583
+Syncerus caffer,            Syncerus_caffer,642.9,467.5,0.31592219
+Tetracerus quadricornis,            Tetracerus_quadricornis,18,17,0.057142857
+Tragelaphus angasii,            Tragelaphus_angasii,110.2,64.4,0.524627721
+Taurotragus derbianus,            Tragelaphus_derbianus,700,450,
+Tragelaphus eurycerus,            Tragelaphus_eurycerus,322.5,222.5,
+Tragelaphus imberbis,            Tragelaphus_imberbis,95.6,62.1,0.424857324
+Taurotragus oryx,            Tragelaphus_oryx,647.3,415.8,0.435518766
+Tragelaphus scriptus,            Tragelaphus_scriptus_1,49.7,31.1,0.46039604
+,            Tragelaphus_scriptus_2,,,
+,            Tragelaphus_scriptus_3,,,
+Tragelaphus spekei,            Tragelaphus_spekii,102.3,60.2,0.518153846
+Tragelaphus strepsiceros,            Tragelaphus_strepsiceros,240.8,159.2,0.408
+Tragulus kanchil,            Tragulus_kanchil,1.8,1.9,
