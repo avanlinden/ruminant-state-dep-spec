@@ -14,14 +14,24 @@ library(phangorn)
 library(tidyverse)
 library(here)
 
+# read in chen tree and data
+
 tree <- read.tree(here("trees/tidy-chen-tree.tre"))
 
 data <- read_csv(here("tidy-data/chen-body-mass-data-sdratio.csv"))
+
+# extract 0.2 and 0.1 threshold data as binary data frames
 
 sd20data <- data %>% 
   mutate(species = str_replace(species, " ", "_")) %>% 
   mutate(sd20_bin = if_else(sd20 == "dimorphic", 1, 0)) %>% 
   select(species, sd20_bin) %>% 
+  as.data.frame()
+
+sd10data <- data %>% 
+  mutate(species = str_replace(species, " ", "_")) %>% 
+  mutate(sd10_bin = if_else(sd10 == "dimorphic", 1, 0)) %>% 
+  select(species, sd10_bin) %>% 
   as.data.frame()
 
 ### Null models ===================
@@ -45,6 +55,22 @@ null_sd20 <-
     sann = FALSE
   )
 
+null_sd10 <-
+  hisse(
+    phy = tree,
+    data = sd10data,
+    f = f.null,
+    turnover = turnover.null,
+    eps = ef.null,
+    hidden.states = FALSE,
+    trans.rate = trans.rates.null,
+    sann = FALSE
+  )
+
+saveRDS(null_sd20, here("hisse-output/chen-sd20-null.rds"))
+
+saveRDS(null_sd10, here("hisse-output/chen-sd10-null.rds"))
+
 # Null model with states 0 or 1, one div rate, and one trans rate between states
 
 eq.trans.rates.null <- ParEqual(trans.rates.null, c(1,2))
@@ -60,6 +86,22 @@ eq_null_sd20 <-
     trans.rate = eq.trans.rates.null,
     sann = FALSE
   )
+
+eq_null_sd10 <-
+  hisse(
+    phy = tree,
+    data = sd10data,
+    f = f.null,
+    turnover = turnover.null,
+    eps = ef.null,
+    hidden.states = FALSE,
+    trans.rate = eq.trans.rates.null,
+    sann = FALSE
+  )
+
+saveRDS(eq_null_sd20, here("hisse-output/chen-sd20-null-equal.rds"))
+
+saveRDS(eq_null_sd10, here("hisse-output/chen-sd10-null-equal.rds"))
 
 ### BiSSE models ====================
 
@@ -81,6 +123,21 @@ bisse_sd20 <- hisse(
   sann = FALSE
 )
 
+bisse_sd10 <- hisse(
+  phy = tree,
+  data = sd10data,
+  f = f.bisse,
+  turnover = turnover.bisse,
+  eps = ef.bisse,
+  hidden.states = FALSE,
+  trans.rate = trans.rates.bisse,
+  sann = FALSE
+)
+
+saveRDS(bisse_sd20, here("hisse-output/chen-sd20-bisse.rds"))
+
+saveRDS(bisse_sd10, here("hisse-output/chen-sd10-bisse.rds"))
+
 # BiSSE model with equal transition rates
 
 eq.trans.rates.bisse <- ParEqual(trans.rates.bisse, c(1,2))
@@ -95,6 +152,21 @@ eq_bisse_sd20 <- hisse(
   trans.rate = eq.trans.rates.bisse,
   sann = FALSE
 )
+
+eq_bisse_sd10 <- hisse(
+  phy = tree,
+  data = sd10data,
+  f = f.bisse,
+  turnover = turnover.bisse,
+  eps = ef.bisse,
+  hidden.states = FALSE,
+  trans.rate = eq.trans.rates.bisse,
+  sann = FALSE
+)
+
+saveRDS(eq_bisse_sd20, here("hisse-output/chen-sd20-bisse-equal.rds"))
+
+saveRDS(eq_bisse_sd10, here("hisse-output/chen-sd10-bisse-equal.rds"))
 
 ### HiSSE models ================
 
@@ -116,6 +188,21 @@ hisse_sd20 <- hisse(
   sann = FALSE
 )
 
+hisse_sd10 <- hisse(
+  phy = tree,
+  data = sd10data,
+  f = f.hisse,
+  turnover = turnover.hisse,
+  eps = ef.hisse,
+  hidden.states = TRUE,
+  trans.rate = trans.rates.hisse,
+  sann = FALSE
+)
+
+saveRDS(hisse_sd20, here("hisse-output/chen-sd20-hisse.rds"))
+
+saveRDS(hisse_sd10, here("hisse-output/chen-sd10-hisse.rds"))
+
 # HiSSE model with equal transition rates between all states, hidden and non-hidden
 
 eq.trans.rates.hisse <- ParEqual(trans.rates.hisse, c(1,2,1,3,1,4,1,5))
@@ -130,6 +217,21 @@ eq_hisse_sd20 <- hisse(
   trans.rate = eq.trans.rates.hisse,
   sann = FALSE
 )
+
+eq_hisse_sd10 <- hisse(
+  phy = tree,
+  data = sd10data,
+  f = f.hisse,
+  turnover = turnover.hisse,
+  eps = ef.hisse,
+  hidden.states = TRUE,
+  trans.rate = eq.trans.rates.hisse,
+  sann = FALSE
+)
+
+saveRDS(eq_hisse_sd20, here("hisse-output/chen-sd20-hisse-equal.rds"))
+
+saveRDS(eq_hisse_sd10, here("hisse-output/chen-sd10-hisse-equal.rds"))
 
 ### CID 2 models =================
 
@@ -151,6 +253,21 @@ cid2_sd20 <- hisse(
   sann = FALSE
 )
 
+cid2_sd10 <- hisse(
+  phy = tree,
+  data = sd10data,
+  f = f.cid2,
+  turnover = turnover.cid2,
+  eps = ef.cid2,
+  hidden.states = TRUE,
+  trans.rate = trans.rates.cid2,
+  sann = FALSE
+)
+
+saveRDS(cid2_sd20, here("hisse-output/chen-sd20-cid2.rds"))
+
+saveRDS(cid2_sd10, here("hisse-output/chen-sd10-cid2.rds"))
+
 # CID2 model with equal transition rates for all states
 
 eq.trans.rates.cid2 <- ParEqual(trans.rates.cid2, c(1,2,1,3))
@@ -165,6 +282,21 @@ eq_cid2_sd20 <- hisse(
   trans.rate = eq.trans.rates.cid2,
   sann = FALSE
 )
+
+eq_cid2_sd10 <- hisse(
+  phy = tree,
+  data = sd10data,
+  f = f.cid2,
+  turnover = turnover.cid2,
+  eps = ef.cid2,
+  hidden.states = TRUE,
+  trans.rate = eq.trans.rates.cid2,
+  sann = FALSE
+)
+
+saveRDS(eq_cid2_sd20, here("hisse-output/chen-sd20-cid2-equal.rds"))
+
+saveRDS(eq_cid2_sd10, here("hisse-output/chen-sd10-cid2-equal.rds"))
 
 ### CID4 models =================
 
@@ -186,6 +318,21 @@ cid4_sd20 <- hisse(
   sann = FALSE
 )
 
+cid4_sd10 <- hisse(
+  phy = tree,
+  data = sd10data,
+  f = f.cid4,
+  turnover = turnover.cid4,
+  eps = ef.cid4,
+  hidden.states = TRUE,
+  trans.rate = trans.rates.cid4,
+  sann = FALSE
+)
+
+saveRDS(cid4_sd20, here("hisse-output/chen-sd20-cid4.rds"))
+
+saveRDS(cid4_sd10, here("hisse-output/chen-sd10-cid4.rds"))
+
 # CID4 model with equal transition rates for all states
 
 eq.trans.rates.cid4 <- ParEqual(trans.rates.cid4, c(1,2,1,3))
@@ -200,6 +347,22 @@ eq_cid4_sd20 <- hisse(
   trans.rate = eq.trans.rates.cid4,
   sann = FALSE
 )
+
+
+eq_cid4_sd10 <- hisse(
+  phy = tree,
+  data = sd10data,
+  f = f.cid4,
+  turnover = turnover.cid4,
+  eps = ef.cid4,
+  hidden.states = TRUE,
+  trans.rate = eq.trans.rates.cid4,
+  sann = FALSE
+)
+
+saveRDS(eq_cid4_sd20, here("hisse-output/chen-sd20-cid4-equal.rds"))
+
+saveRDS(eq_cid4_sd10, here("hisse-output/chen-sd10-cid4-equal.rds"))
 
 ### All model results to list ===================
 
