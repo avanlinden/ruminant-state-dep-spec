@@ -446,8 +446,6 @@ null_sd10_rec <-
   )
 
 eq_null_sd20_rec <-
-<<<<<<< HEAD
-=======
   MarginReconHiSSE(
     phy = tree,
     data = sd20data,
@@ -467,99 +465,44 @@ eq_null_sd10_rec <-
     aic = eq_null_sd10$AICc
   )
 
-cid4_sd20_rec <-
+bisse_sd20_rec <-
   MarginReconHiSSE(
     phy = tree,
     data = sd20data,
     f = f.null,
-    pars = cid4_sd20$solution,
+    pars = bisse_sd20$solution,
     hidden.states = 1,
-    aic = cid4_sd20$AICc
+    aic = bisse_sd20$AICc
   )
 
-cid4_sd10_rec <-
-  MarginReconHiSSE(
-    phy = tree,
-    data = sd10data,
-    f = f.null,
-    pars = cid4_sd10$solution,
-    hidden.states = 1,
-    aic = cid4_sd10$AICc
-  )
-
-eq_cid4_sd20_rec <-
->>>>>>> b92eebe2345cd6df3bb41b7c91d6ce843d5b431b
+eq_bisse_sd20_rec <-
   MarginReconHiSSE(
     phy = tree,
     data = sd20data,
     f = f.null,
-<<<<<<< HEAD
-    pars = eq_null_sd20$solution,
-    hidden.states = 1, 
-    aic = eq_null_sd20$AICc
-  )
-
-eq_null_sd10_rec <-
-=======
-    pars = eq_cid4_sd20$solution,
+    pars = eq_bisse_sd20$solution,
     hidden.states = 1,
-    aic = eq_cid4_sd20$AICc
+    aic = eq_bisse_sd20$AICc
   )
 
-eq_cid4_sd10_rec <-
->>>>>>> b92eebe2345cd6df3bb41b7c91d6ce843d5b431b
+bisse_sd10_rec <-
   MarginReconHiSSE(
     phy = tree,
     data = sd10data,
     f = f.null,
-<<<<<<< HEAD
-    pars = eq_null_sd10$solution,
-    hidden.states = 1, 
-    aic = eq_null_sd10$AICc
-  )
-
-cid4_sd20_rec <-
-  MarginReconHiSSE(
-    phy = tree,
-    data = sd20data,
-    f = f.null,
-    pars = cid4_sd20$solution,
+    pars = bisse_sd10$solution,
     hidden.states = 1,
-    aic = cid4_sd20$AICc
+    aic = bisse_sd10$AICc
   )
 
-cid4_sd10_rec <-
+eq_bisse_sd10_rec <-
   MarginReconHiSSE(
     phy = tree,
     data = sd10data,
     f = f.null,
-    pars = cid4_sd10$solution,
+    pars = eq_bisse_sd10$solution,
     hidden.states = 1,
-    aic = cid4_sd10$AICc
-  )
-
-eq_cid4_sd20_rec <-
-  MarginReconHiSSE(
-    phy = tree,
-    data = sd20data,
-    f = f.null,
-    pars = eq_cid4_sd20$solution,
-    hidden.states = 1,
-    aic = eq_cid4_sd20$AICc
-  )
-
-eq_cid4_sd10_rec <-
-  MarginReconHiSSE(
-    phy = tree,
-    data = sd10data,
-    f = f.null,
-    pars = eq_cid4_sd10$solution,
-    hidden.states = 1,
-=======
-    pars = eq_cid4_sd10$solution,
-    hidden.states = 1,
->>>>>>> b92eebe2345cd6df3bb41b7c91d6ce843d5b431b
-    aic = eq_cid4_sd10$AICc
+    aic = eq_bisse_sd10$AICc
   )
 
 hisse_sd20_rec <-
