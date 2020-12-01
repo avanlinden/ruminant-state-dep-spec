@@ -2,7 +2,7 @@
 ### 10 different versions of SSE models from the `hisse` package 
 ### dull null; cid4; HiSSE; CID2; CID4; plus all of those again with equal transition rates between all states
 ### HiSSE, CID2, and CID4 all have equal transition rates for all hidden states
-### Tree: Chen et al. 2019 WGS ruminant tree
+### Tree: bibi et al. 2019 WGS ruminant tree
 ### Sexual dimorphism ratio: 0.2
 
 ### Setup ================
@@ -14,22 +14,20 @@ library(phangorn)
 library(tidyverse)
 library(here)
 
-# read in chen tree and data
+# read in bibi tree and data
 
-tree <- read.tree(here("trees/tidy-chen-tree.tre"))
+tree <- read.tree(here("trees/tidy-bibi-tree.tre"))
 
-data <- read_csv(here("tidy-data/chen-body-mass-data-sdratio.csv"))
+data <- read_csv(here("tidy-data/bibi-body-mass-data-sdratio.csv"))
 
 # extract 0.2 and 0.1 threshold data as binary data frames
 
 sd20data <- data %>% 
-  mutate(species = str_replace(species, " ", "_")) %>% 
   mutate(sd20_bin = if_else(sd20 == "dimorphic", 1, 0)) %>% 
   select(species, sd20_bin) %>% 
   as.data.frame()
 
 sd10data <- data %>% 
-  mutate(species = str_replace(species, " ", "_")) %>% 
   mutate(sd10_bin = if_else(sd10 == "dimorphic", 1, 0)) %>% 
   select(species, sd10_bin) %>% 
   as.data.frame()
@@ -67,9 +65,9 @@ null_sd10 <-
     sann = FALSE
   )
 
-saveRDS(null_sd20, here("hisse-output/chen-sd20-null.rds"))
+saveRDS(null_sd20, here("hisse-output/bibi-sd20-null.rds"))
 
-saveRDS(null_sd10, here("hisse-output/chen-sd10-null.rds"))
+saveRDS(null_sd10, here("hisse-output/bibi-sd10-null.rds"))
 
 # Null model with states 0 or 1, one div rate, and one trans rate between states
 
@@ -99,74 +97,74 @@ eq_null_sd10 <-
     sann = FALSE
   )
 
-saveRDS(eq_null_sd20, here("hisse-output/chen-sd20-null-equal.rds"))
+saveRDS(eq_null_sd20, here("hisse-output/bibi-sd20-null-equal.rds"))
 
-saveRDS(eq_null_sd10, here("hisse-output/chen-sd10-null-equal.rds"))
+saveRDS(eq_null_sd10, here("hisse-output/bibi-sd10-null-equal.rds"))
 
-### cid4 models ====================
+### bisse models ====================
 
-# true cid4 model with two observed states 0 and 1, no hidden trates, two div rates, and two transition rates
+# true bisse model with two observed states 0 and 1, no hidden trates, two div rates, and two transition rates
 
-turnover.cid4 <- c(1,2)
-ef.cid4 <- c(1,1)
-f.cid4 <- c(1,1)
-trans.rates.cid4 <- TransMatMakerHiSSE(hidden.traits=0)
+turnover.bisse <- c(1,2)
+ef.bisse <- c(1,1)
+f.bisse <- c(1,1)
+trans.rates.bisse <- TransMatMakerHiSSE(hidden.traits=0)
 
-cid4_sd20 <- hisse(
+bisse_sd20 <- hisse(
   phy = tree,
   data = sd20data,
-  f = f.cid4,
-  turnover = turnover.cid4,
-  eps = ef.cid4,
+  f = f.bisse,
+  turnover = turnover.bisse,
+  eps = ef.bisse,
   hidden.states = FALSE,
-  trans.rate = trans.rates.cid4,
+  trans.rate = trans.rates.bisse,
   sann = FALSE
 )
 
-cid4_sd10 <- hisse(
+bisse_sd10 <- hisse(
   phy = tree,
   data = sd10data,
-  f = f.cid4,
-  turnover = turnover.cid4,
-  eps = ef.cid4,
+  f = f.bisse,
+  turnover = turnover.bisse,
+  eps = ef.bisse,
   hidden.states = FALSE,
-  trans.rate = trans.rates.cid4,
+  trans.rate = trans.rates.bisse,
   sann = FALSE
 )
 
-saveRDS(cid4_sd20, here("hisse-output/chen-sd20-cid4.rds"))
+saveRDS(bisse_sd20, here("hisse-output/bibi-sd20-bisse.rds"))
 
-saveRDS(cid4_sd10, here("hisse-output/chen-sd10-cid4.rds"))
+saveRDS(bisse_sd10, here("hisse-output/bibi-sd10-bisse.rds"))
 
-# cid4 model with equal transition rates
+# bisse model with equal transition rates
 
-eq.trans.rates.cid4 <- ParEqual(trans.rates.cid4, c(1,2))
+eq.trans.rates.bisse <- ParEqual(trans.rates.bisse, c(1,2))
 
-eq_cid4_sd20 <- hisse(
+eq_bisse_sd20 <- hisse(
   phy = tree,
   data = sd20data,
-  f = f.cid4,
-  turnover = turnover.cid4,
-  eps = ef.cid4,
+  f = f.bisse,
+  turnover = turnover.bisse,
+  eps = ef.bisse,
   hidden.states = FALSE,
-  trans.rate = eq.trans.rates.cid4,
+  trans.rate = eq.trans.rates.bisse,
   sann = FALSE
 )
 
-eq_cid4_sd10 <- hisse(
+eq_bisse_sd10 <- hisse(
   phy = tree,
   data = sd10data,
-  f = f.cid4,
-  turnover = turnover.cid4,
-  eps = ef.cid4,
+  f = f.bisse,
+  turnover = turnover.bisse,
+  eps = ef.bisse,
   hidden.states = FALSE,
-  trans.rate = eq.trans.rates.cid4,
+  trans.rate = eq.trans.rates.bisse,
   sann = FALSE
 )
 
-saveRDS(eq_cid4_sd20, here("hisse-output/chen-sd20-cid4-equal.rds"))
+saveRDS(eq_bisse_sd20, here("hisse-output/bibi-sd20-bisse-equal.rds"))
 
-saveRDS(eq_cid4_sd10, here("hisse-output/chen-sd10-cid4-equal.rds"))
+saveRDS(eq_bisse_sd10, here("hisse-output/bibi-sd10-bisse-equal.rds"))
 
 ### HiSSE models ================
 
@@ -199,9 +197,9 @@ hisse_sd10 <- hisse(
   sann = FALSE
 )
 
-saveRDS(hisse_sd20, here("hisse-output/chen-sd20-hisse.rds"))
+saveRDS(hisse_sd20, here("hisse-output/bibi-sd20-hisse.rds"))
 
-saveRDS(hisse_sd10, here("hisse-output/chen-sd10-hisse.rds"))
+saveRDS(hisse_sd10, here("hisse-output/bibi-sd10-hisse.rds"))
 
 # HiSSE model with equal transition rates between all states, hidden and non-hidden
 
@@ -229,9 +227,9 @@ eq_hisse_sd10 <- hisse(
   sann = FALSE
 )
 
-saveRDS(eq_hisse_sd20, here("hisse-output/chen-sd20-hisse-equal.rds"))
+saveRDS(eq_hisse_sd20, here("hisse-output/bibi-sd20-hisse-equal.rds"))
 
-saveRDS(eq_hisse_sd10, here("hisse-output/chen-sd10-hisse-equal.rds"))
+saveRDS(eq_hisse_sd10, here("hisse-output/bibi-sd10-hisse-equal.rds"))
 
 ### CID 2 models =================
 
@@ -264,9 +262,9 @@ cid2_sd10 <- hisse(
   sann = FALSE
 )
 
-saveRDS(cid2_sd20, here("hisse-output/chen-sd20-cid2.rds"))
+saveRDS(cid2_sd20, here("hisse-output/bibi-sd20-cid2.rds"))
 
-saveRDS(cid2_sd10, here("hisse-output/chen-sd10-cid2.rds"))
+saveRDS(cid2_sd10, here("hisse-output/bibi-sd10-cid2.rds"))
 
 # CID2 model with equal transition rates for all states
 
@@ -294,9 +292,9 @@ eq_cid2_sd10 <- hisse(
   sann = FALSE
 )
 
-saveRDS(eq_cid2_sd20, here("hisse-output/chen-sd20-cid2-equal.rds"))
+saveRDS(eq_cid2_sd20, here("hisse-output/bibi-sd20-cid2-equal.rds"))
 
-saveRDS(eq_cid2_sd10, here("hisse-output/chen-sd10-cid2-equal.rds"))
+saveRDS(eq_cid2_sd10, here("hisse-output/bibi-sd10-cid2-equal.rds"))
 
 ### CID4 models =================
 
@@ -329,9 +327,9 @@ cid4_sd10 <- hisse(
   sann = FALSE
 )
 
-saveRDS(cid4_sd20, here("hisse-output/chen-sd20-cid4.rds"))
+saveRDS(cid4_sd20, here("hisse-output/bibi-sd20-cid4.rds"))
 
-saveRDS(cid4_sd10, here("hisse-output/chen-sd10-cid4.rds"))
+saveRDS(cid4_sd10, here("hisse-output/bibi-sd10-cid4.rds"))
 
 # CID4 model with equal transition rates for all states
 
@@ -360,9 +358,9 @@ eq_cid4_sd10 <- hisse(
   sann = FALSE
 )
 
-saveRDS(eq_cid4_sd20, here("hisse-output/chen-sd20-cid4-equal.rds"))
+saveRDS(eq_cid4_sd20, here("hisse-output/bibi-sd20-cid4-equal.rds"))
 
-saveRDS(eq_cid4_sd10, here("hisse-output/chen-sd10-cid4-equal.rds"))
+saveRDS(eq_cid4_sd10, here("hisse-output/bibi-sd10-cid4-equal.rds"))
 
 ### All model results to list ===================
 
@@ -386,7 +384,7 @@ corrWeights <- GetAICWeights(hisseList, criterion = "AICc")
 
 ### Combine params and weights =============
 
-chenHisseResults <- cbind(hisseObj, AIC.vector, AICc.vector, AICweights, corrWeights) %>% 
+bibiHisseResults <- cbind(hisseObj, AIC.vector, AICc.vector, AICweights, corrWeights) %>% 
   as_tibble() %>% 
   transmute(model = hisseObj, AIC = as.numeric(AIC.vector), AICc = as.numeric(AICc.vector), AICweights = as.numeric(AICweights), AICcorrWeights = as.numeric(corrWeights)) %>% 
   mutate(deltaAIC = AIC - min(AIC)) %>%
@@ -410,14 +408,14 @@ chenHisseResults <- cbind(hisseObj, AIC.vector, AICc.vector, AICweights, corrWei
     TRUE ~ "vary")
   )
 
-write_csv(chenHisseResults, here("tidy-data/chen-hisse-model-weights.csv"))
+write_csv(bibiHisseResults, here("tidy-data/bibi-hisse-model-weights.csv"))
 
-chenHisseResults %>% 
+bibiHisseResults %>% 
   group_by(specRates) %>% 
   summarise(sumCorrWeights = sum(AICcorrWeights)) %>% 
   arrange(desc(sumCorrWeights))
 
-chenHisseResults %>% 
+bibiHisseResults %>% 
   arrange(deltaAICc)
 
 ### Average model parameters =================
@@ -627,30 +625,30 @@ eq_cid4_sd10_rec <-
 
 ### save marginal reconstruction objects =========
 
-saveRDS(null_sd20_rec, here("hisse-marginal-recons/chen-null-sd20.rds"))
-saveRDS(eq_null_sd20_rec, here("hisse-marginal-recons/chen-null-sd20-equal.rds"))
-saveRDS(null_sd10_rec, here("hisse-marginal-recons/chen-null-sd10.rds"))
-saveRDS(eq_null_sd10_rec, here("hisse-marginal-recons/chen-null-sd10-equal.rds"))
+saveRDS(null_sd20_rec, here("hisse-marginal-recons/bibi-null-sd20.rds"))
+saveRDS(eq_null_sd20_rec, here("hisse-marginal-recons/bibi-null-sd20-equal.rds"))
+saveRDS(null_sd10_rec, here("hisse-marginal-recons/bibi-null-sd10.rds"))
+saveRDS(eq_null_sd10_rec, here("hisse-marginal-recons/bibi-null-sd10-equal.rds"))
 
-saveRDS(cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20.rds"))
-saveRDS(eq_cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20-equal.rds"))
-saveRDS(cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10.rds"))
-saveRDS(eq_cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10-equal.rds"))
+saveRDS(cid4_sd20_rec, here("hisse-marginal-recons/bibi-cid4-sd20.rds"))
+saveRDS(eq_cid4_sd20_rec, here("hisse-marginal-recons/bibi-cid4-sd20-equal.rds"))
+saveRDS(cid4_sd10_rec, here("hisse-marginal-recons/bibi-cid4-sd10.rds"))
+saveRDS(eq_cid4_sd10_rec, here("hisse-marginal-recons/bibi-cid4-sd10-equal.rds"))
 
-saveRDS(hisse_sd20_rec, here("hisse-marginal-recons/chen-hisse-sd20.rds"))
-saveRDS(eq_hisse_sd20_rec, here("hisse-marginal-recons/chen-hisse-sd20-equal.rds"))
-saveRDS(hisse_sd10_rec, here("hisse-marginal-recons/chen-hisse-sd10.rds"))
-saveRDS(eq_hisse_sd10_rec, here("hisse-marginal-recons/chen-hisse-sd10-equal.rds"))
+saveRDS(hisse_sd20_rec, here("hisse-marginal-recons/bibi-hisse-sd20.rds"))
+saveRDS(eq_hisse_sd20_rec, here("hisse-marginal-recons/bibi-hisse-sd20-equal.rds"))
+saveRDS(hisse_sd10_rec, here("hisse-marginal-recons/bibi-hisse-sd10.rds"))
+saveRDS(eq_hisse_sd10_rec, here("hisse-marginal-recons/bibi-hisse-sd10-equal.rds"))
 
-saveRDS(cid2_sd20_rec, here("hisse-marginal-recons/chen-cid2-sd20.rds"))
-saveRDS(eq_cid2_sd20_rec, here("hisse-marginal-recons/chen-cid2-sd20-equal.rds"))
-saveRDS(cid2_sd10_rec, here("hisse-marginal-recons/chen-cid2-sd10.rds"))
-saveRDS(eq_cid2_sd10_rec, here("hisse-marginal-recons/chen-cid2-sd10-equal.rds"))
+saveRDS(cid2_sd20_rec, here("hisse-marginal-recons/bibi-cid2-sd20.rds"))
+saveRDS(eq_cid2_sd20_rec, here("hisse-marginal-recons/bibi-cid2-sd20-equal.rds"))
+saveRDS(cid2_sd10_rec, here("hisse-marginal-recons/bibi-cid2-sd10.rds"))
+saveRDS(eq_cid2_sd10_rec, here("hisse-marginal-recons/bibi-cid2-sd10-equal.rds"))
 
-saveRDS(cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20.rds"))
-saveRDS(eq_cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20-equal.rds"))
-saveRDS(cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10.rds"))
-saveRDS(eq_cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10-equal.rds"))
+saveRDS(cid4_sd20_rec, here("hisse-marginal-recons/bibi-cid4-sd20.rds"))
+saveRDS(eq_cid4_sd20_rec, here("hisse-marginal-recons/bibi-cid4-sd20-equal.rds"))
+saveRDS(cid4_sd10_rec, here("hisse-marginal-recons/bibi-cid4-sd10.rds"))
+saveRDS(eq_cid4_sd10_rec, here("hisse-marginal-recons/bibi-cid4-sd10-equal.rds"))
 
 ### Marginal recons to list ===========
 
