@@ -1,6 +1,6 @@
 
 ### 10 different versions of SSE models from the `hisse` package 
-### dull null; BiSSE; HiSSE; CID2; CID4; plus all of those again with equal transition rates between all states
+### dull null; cid4; HiSSE; CID2; CID4; plus all of those again with equal transition rates between all states
 ### HiSSE, CID2, and CID4 all have equal transition rates for all hidden states
 ### Tree: Chen et al. 2019 WGS ruminant tree
 ### Sexual dimorphism ratio: 0.2
@@ -103,70 +103,70 @@ saveRDS(eq_null_sd20, here("hisse-output/chen-sd20-null-equal.rds"))
 
 saveRDS(eq_null_sd10, here("hisse-output/chen-sd10-null-equal.rds"))
 
-### BiSSE models ====================
+### cid4 models ====================
 
-# true BiSSE model with two observed states 0 and 1, no hidden trates, two div rates, and two transition rates
+# true cid4 model with two observed states 0 and 1, no hidden trates, two div rates, and two transition rates
 
-turnover.bisse <- c(1,2)
-ef.bisse <- c(1,1)
-f.bisse <- c(1,1)
-trans.rates.bisse <- TransMatMakerHiSSE(hidden.traits=0)
+turnover.cid4 <- c(1,2)
+ef.cid4 <- c(1,1)
+f.cid4 <- c(1,1)
+trans.rates.cid4 <- TransMatMakerHiSSE(hidden.traits=0)
 
-bisse_sd20 <- hisse(
+cid4_sd20 <- hisse(
   phy = tree,
   data = sd20data,
-  f = f.bisse,
-  turnover = turnover.bisse,
-  eps = ef.bisse,
+  f = f.cid4,
+  turnover = turnover.cid4,
+  eps = ef.cid4,
   hidden.states = FALSE,
-  trans.rate = trans.rates.bisse,
+  trans.rate = trans.rates.cid4,
   sann = FALSE
 )
 
-bisse_sd10 <- hisse(
+cid4_sd10 <- hisse(
   phy = tree,
   data = sd10data,
-  f = f.bisse,
-  turnover = turnover.bisse,
-  eps = ef.bisse,
+  f = f.cid4,
+  turnover = turnover.cid4,
+  eps = ef.cid4,
   hidden.states = FALSE,
-  trans.rate = trans.rates.bisse,
+  trans.rate = trans.rates.cid4,
   sann = FALSE
 )
 
-saveRDS(bisse_sd20, here("hisse-output/chen-sd20-bisse.rds"))
+saveRDS(cid4_sd20, here("hisse-output/chen-sd20-cid4.rds"))
 
-saveRDS(bisse_sd10, here("hisse-output/chen-sd10-bisse.rds"))
+saveRDS(cid4_sd10, here("hisse-output/chen-sd10-cid4.rds"))
 
-# BiSSE model with equal transition rates
+# cid4 model with equal transition rates
 
-eq.trans.rates.bisse <- ParEqual(trans.rates.bisse, c(1,2))
+eq.trans.rates.cid4 <- ParEqual(trans.rates.cid4, c(1,2))
 
-eq_bisse_sd20 <- hisse(
+eq_cid4_sd20 <- hisse(
   phy = tree,
   data = sd20data,
-  f = f.bisse,
-  turnover = turnover.bisse,
-  eps = ef.bisse,
+  f = f.cid4,
+  turnover = turnover.cid4,
+  eps = ef.cid4,
   hidden.states = FALSE,
-  trans.rate = eq.trans.rates.bisse,
+  trans.rate = eq.trans.rates.cid4,
   sann = FALSE
 )
 
-eq_bisse_sd10 <- hisse(
+eq_cid4_sd10 <- hisse(
   phy = tree,
   data = sd10data,
-  f = f.bisse,
-  turnover = turnover.bisse,
-  eps = ef.bisse,
+  f = f.cid4,
+  turnover = turnover.cid4,
+  eps = ef.cid4,
   hidden.states = FALSE,
-  trans.rate = eq.trans.rates.bisse,
+  trans.rate = eq.trans.rates.cid4,
   sann = FALSE
 )
 
-saveRDS(eq_bisse_sd20, here("hisse-output/chen-sd20-bisse-equal.rds"))
+saveRDS(eq_cid4_sd20, here("hisse-output/chen-sd20-cid4-equal.rds"))
 
-saveRDS(eq_bisse_sd10, here("hisse-output/chen-sd10-bisse-equal.rds"))
+saveRDS(eq_cid4_sd10, here("hisse-output/chen-sd10-cid4-equal.rds"))
 
 ### HiSSE models ================
 
@@ -366,38 +366,35 @@ saveRDS(eq_cid4_sd10, here("hisse-output/chen-sd10-cid4-equal.rds"))
 
 ### All model results to list ===================
 
-hisseResults <- list(null_sd20, bisse_sd20, hisse_sd20, cid2_sd20, cid4_sd20)
+# function to find all objects of class "hisse.fit" in environment
 
-equalRatesResults <- list(eq_null_sd20, eq_bisse_sd20, eq_hisse_sd20, eq_cid2_sd20, eq_cid4_sd20)
+ClassFilter <- function(x) inherits(get(x), 'hisse.fit' )
+hisseObj <- Filter( ClassFilter, ls() )
 
-fullResults <- list(null_sd20, bisse_sd20, hisse_sd20, cid2_sd20, cid4_sd20, eq_null_sd20, eq_bisse_sd20, eq_hisse_sd20, eq_cid2_sd20, eq_cid4_sd20)
+hisseList <- mget(hisseObj)
 
 ### Extract model params =========
 
-AIC.vector <- sapply(fullResults, "[[", "AIC")
-AICc.vector <- sapply(fullResults, "[[", "AICc")
+AIC.vector <- sapply(hisseList, "[[", "AIC")
+AICc.vector <- sapply(hisseList, "[[", "AICc")
 
 ### Compute Model Weights ============
 
-GetAICWeights(hisseResults, criterion = "AIC")
+AICweights<- GetAICWeights(hisseList, criterion = "AIC")
 
-fullWeights <- GetAICWeights(fullResults, criterion = "AIC")
-
-fullCorrWeights <- GetAICWeights(fullResults, criterion = "AICc")
-
-fullModelNames <- c("null_sd20", "bisse_sd20", "hisse_sd20", "cid2_sd20", "cid4_sd20", "eq_null_sd20", "eq_bisse_sd20", "eq_hisse_sd20", "eq_cid2_sd20", "eq_cid4_sd20")
+corrWeights <- GetAICWeights(hisseList, criterion = "AICc")
 
 ### Combine params and weights =============
 
-chenHisseResults <- cbind(fullModelNames, AIC.vector, AICc.vector, fullWeights, fullCorrWeights) %>% 
+chenHisseResults <- cbind(hisseObj, AIC.vector, AICc.vector, AICweights, corrWeights) %>% 
   as_tibble() %>% 
-  transmute(model = fullModelNames, AIC = as.numeric(AIC.vector), AICc = as.numeric(AICc.vector), AICweights = as.numeric(fullWeights), AICcorrWeights = as.numeric(fullCorrWeights)) %>% 
+  transmute(model = hisseObj, AIC = as.numeric(AIC.vector), AICc = as.numeric(AICc.vector), AICweights = as.numeric(AICweights), AICcorrWeights = as.numeric(corrWeights)) %>% 
   mutate(deltaAIC = AIC - min(AIC)) %>%
   mutate(deltaAICc = AICc - min(AICc)) %>% 
   mutate(
     modelType = case_when(
       str_detect(model, "null") ~ "null",
-      str_detect(model, "bisse") ~ "bisse",
+      str_detect(model, "cid4") ~ "cid4",
       str_detect(model, "hisse") ~ "hisse",
       str_detect(model, "cid2") ~ "cid2",
       TRUE ~ "cid4")
@@ -413,8 +410,10 @@ chenHisseResults <- cbind(fullModelNames, AIC.vector, AICc.vector, fullWeights, 
     TRUE ~ "vary")
   )
 
+write_csv(chenHisseResults, here("tidy-data/chen-hisse-model-weights.csv"))
+
 chenHisseResults %>% 
-  group_by(modelType) %>% 
+  group_by(specRates) %>% 
   summarise(sumCorrWeights = sum(AICcorrWeights)) %>% 
   arrange(desc(sumCorrWeights))
 
@@ -436,14 +435,74 @@ null_sd20_rec <-
     aic = null_sd20$AICc
   )
 
-bisse_sd20_rec <-
+null_sd10_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd10data,
+    f = f.null,
+    pars = null_sd10$solution,
+    hidden.states = 1, 
+    aic = null_sd10$AICc
+  )
+
+eq_null_sd20_rec <-
   MarginReconHiSSE(
     phy = tree,
     data = sd20data,
     f = f.null,
-    pars = bisse_sd20$solution,
+    pars = eq_null_sd20$solution,
+    hidden.states = 1, 
+    aic = eq_null_sd20$AICc
+  )
+
+eq_null_sd10_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd10data,
+    f = f.null,
+    pars = eq_null_sd10$solution,
+    hidden.states = 1, 
+    aic = eq_null_sd10$AICc
+  )
+
+cid4_sd20_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd20data,
+    f = f.null,
+    pars = cid4_sd20$solution,
     hidden.states = 1,
-    aic = bisse_sd20$AICc
+    aic = cid4_sd20$AICc
+  )
+
+cid4_sd10_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd10data,
+    f = f.null,
+    pars = cid4_sd10$solution,
+    hidden.states = 1,
+    aic = cid4_sd10$AICc
+  )
+
+eq_cid4_sd20_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd20data,
+    f = f.null,
+    pars = eq_cid4_sd20$solution,
+    hidden.states = 1,
+    aic = eq_cid4_sd20$AICc
+  )
+
+eq_cid4_sd10_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd10data,
+    f = f.null,
+    pars = eq_cid4_sd10$solution,
+    hidden.states = 1,
+    aic = eq_cid4_sd10$AICc
   )
 
 hisse_sd20_rec <-
@@ -456,6 +515,36 @@ hisse_sd20_rec <-
     aic = hisse_sd20$AICc
   )
 
+eq_hisse_sd20_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd20data,
+    f = f.null,
+    pars = eq_hisse_sd20$solution,
+    hidden.states = 2,
+    aic = eq_hisse_sd20$AICc
+  )
+
+hisse_sd10_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd10data,
+    f = f.null,
+    pars = hisse_sd10$solution,
+    hidden.states = 2,
+    aic = hisse_sd10$AICc
+  )
+
+eq_hisse_sd10_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd10data,
+    f = f.null,
+    pars = eq_hisse_sd10$solution,
+    hidden.states = 2,
+    aic = eq_hisse_sd10$AICc
+  )
+
 cid2_sd20_rec <-
   MarginReconHiSSE(
     phy = tree,
@@ -464,6 +553,36 @@ cid2_sd20_rec <-
     pars = cid2_sd20$solution,
     hidden.states = 2,
     aic = cid2_sd20$AICc
+  )
+
+eq_cid2_sd20_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd20data,
+    f = f.null,
+    pars = eq_cid2_sd20$solution,
+    hidden.states = 2,
+    aic = eq_cid2_sd20$AICc
+  )
+
+cid2_sd10_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd10data,
+    f = f.null,
+    pars = cid2_sd10$solution,
+    hidden.states = 2,
+    aic = cid2_sd10$AICc
+  )
+
+eq_cid2_sd10_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd10data,
+    f = f.null,
+    pars = eq_cid2_sd10$solution,
+    hidden.states = 2,
+    aic = eq_cid2_sd10$AICc
   )
 
 cid4_sd20_rec <-
@@ -476,15 +595,74 @@ cid4_sd20_rec <-
     aic = cid4_sd20$AICc
   )
 
-all_recs <- list(null_sd20_rec, bisse_sd20_rec, hisse_sd20_rec, cid2_sd20_rec, cid4_sd20_rec)
+eq_cid4_sd20_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd20data,
+    f = f.null,
+    pars = eq_cid4_sd20$solution,
+    hidden.states = 4,
+    aic = eq_cid4_sd20$AICc
+  )
+
+cid4_sd10_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd10data,
+    f = f.null,
+    pars = cid4_sd10$solution,
+    hidden.states = 4,
+    aic = cid4_sd10$AICc
+  )
+
+eq_cid4_sd10_rec <-
+  MarginReconHiSSE(
+    phy = tree,
+    data = sd10data,
+    f = f.null,
+    pars = eq_cid4_sd10$solution,
+    hidden.states = 4,
+    aic = eq_cid4_sd10$AICc
+  )
+
+### save marginal reconstruction objects =========
+
+saveRDS(null_sd20_rec, here("hisse-marginal-recons/chen-null-sd20.rds"))
+saveRDS(eq_null_sd20_rec, here("hisse-marginal-recons/chen-null-sd20-equal.rds"))
+saveRDS(null_sd10_rec, here("hisse-marginal-recons/chen-null-sd10.rds"))
+saveRDS(eq_null_sd10_rec, here("hisse-marginal-recons/chen-null-sd10-equal.rds"))
+
+saveRDS(cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20.rds"))
+saveRDS(eq_cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20-equal.rds"))
+saveRDS(cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10.rds"))
+saveRDS(eq_cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10-equal.rds"))
+
+saveRDS(hisse_sd20_rec, here("hisse-marginal-recons/chen-hisse-sd20.rds"))
+saveRDS(eq_hisse_sd20_rec, here("hisse-marginal-recons/chen-hisse-sd20-equal.rds"))
+saveRDS(hisse_sd10_rec, here("hisse-marginal-recons/chen-hisse-sd10.rds"))
+saveRDS(eq_hisse_sd10_rec, here("hisse-marginal-recons/chen-hisse-sd10-equal.rds"))
+
+saveRDS(cid2_sd20_rec, here("hisse-marginal-recons/chen-cid2-sd20.rds"))
+saveRDS(eq_cid2_sd20_rec, here("hisse-marginal-recons/chen-cid2-sd20-equal.rds"))
+saveRDS(cid2_sd10_rec, here("hisse-marginal-recons/chen-cid2-sd10.rds"))
+saveRDS(eq_cid2_sd10_rec, here("hisse-marginal-recons/chen-cid2-sd10-equal.rds"))
+
+saveRDS(cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20.rds"))
+saveRDS(eq_cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20-equal.rds"))
+saveRDS(cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10.rds"))
+saveRDS(eq_cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10-equal.rds"))
+
+### Marginal recons to list ===========
+
+ClassFilter <- function(x) inherits(get(x), 'hisse.states' )
+hisseReconObj <- Filter( ClassFilter, ls() )
+
+hisseReconList <- mget(hisseReconObj)
+
 
 ### Plot results ===============
 
-plot.hisse.states(all_recs, rate.param = "net.div", type = "phylogram", fsize = 0.8, width.factor = 0.5, legend = "none")
-
-plot.hisse.states(cid4_sd20_rec, rate.param = "turnover", type = "phylogram", fsize = 0.8, legend = "none", width.factor = 0.4)
-
-
+plot.hisse.states(hisseReconList, rate.param = "net.div", type = "phylogram", fsize = 0.8, width.factor = 0.4, legend = "none")
 
 
 
