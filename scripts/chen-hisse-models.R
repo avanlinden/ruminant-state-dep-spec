@@ -671,7 +671,6 @@ cid4_sd10_rec <-
     hidden.states = 4,
     aic = cid4_sd10$AICc
   )
-<<<<<<< HEAD
 
 eq_cid4_sd10_rec <-
   MarginReconHiSSE(
@@ -700,47 +699,10 @@ saveRDS(eq_hisse_sd20_rec, here("hisse-marginal-recons/chen-hisse-sd20-equal.rds
 saveRDS(hisse_sd10_rec, here("hisse-marginal-recons/chen-hisse-sd10.rds"))
 saveRDS(eq_hisse_sd10_rec, here("hisse-marginal-recons/chen-hisse-sd10-equal.rds"))
 
-=======
-
-eq_cid4_sd10_rec <-
-  MarginReconHiSSE(
-    phy = tree,
-    data = sd10data,
-    f = f.null,
-    pars = eq_cid4_sd10$solution,
-    hidden.states = 4,
-    aic = eq_cid4_sd10$AICc
-  )
-
-### save marginal reconstruction objects =========
-
-saveRDS(null_sd20_rec, here("hisse-marginal-recons/chen-null-sd20.rds"))
-saveRDS(eq_null_sd20_rec, here("hisse-marginal-recons/chen-null-sd20-equal.rds"))
-saveRDS(null_sd10_rec, here("hisse-marginal-recons/chen-null-sd10.rds"))
-saveRDS(eq_null_sd10_rec, here("hisse-marginal-recons/chen-null-sd10-equal.rds"))
-
-saveRDS(cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20.rds"))
-saveRDS(eq_cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20-equal.rds"))
-saveRDS(cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10.rds"))
-saveRDS(eq_cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10-equal.rds"))
-
-saveRDS(hisse_sd20_rec, here("hisse-marginal-recons/chen-hisse-sd20.rds"))
-saveRDS(eq_hisse_sd20_rec, here("hisse-marginal-recons/chen-hisse-sd20-equal.rds"))
-saveRDS(hisse_sd10_rec, here("hisse-marginal-recons/chen-hisse-sd10.rds"))
-saveRDS(eq_hisse_sd10_rec, here("hisse-marginal-recons/chen-hisse-sd10-equal.rds"))
-
->>>>>>> b92eebe2345cd6df3bb41b7c91d6ce843d5b431b
 saveRDS(cid2_sd20_rec, here("hisse-marginal-recons/chen-cid2-sd20.rds"))
 saveRDS(eq_cid2_sd20_rec, here("hisse-marginal-recons/chen-cid2-sd20-equal.rds"))
 saveRDS(cid2_sd10_rec, here("hisse-marginal-recons/chen-cid2-sd10.rds"))
 saveRDS(eq_cid2_sd10_rec, here("hisse-marginal-recons/chen-cid2-sd10-equal.rds"))
-<<<<<<< HEAD
-
-saveRDS(cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20.rds"))
-saveRDS(eq_cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20-equal.rds"))
-saveRDS(cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10.rds"))
-saveRDS(eq_cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10-equal.rds"))
-=======
 
 saveRDS(cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20.rds"))
 saveRDS(eq_cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20-equal.rds"))
@@ -758,7 +720,6 @@ hisseReconList <- mget(hisseReconObj)
 ### Plot results ===============
 
 plot.hisse.states(hisseReconList, rate.param = "net.div", type = "phylogram", fsize = 0.8, width.factor = 0.4, legend = "none")
->>>>>>> b92eebe2345cd6df3bb41b7c91d6ce843d5b431b
 
 ### Marginal recons to list ===========
 
