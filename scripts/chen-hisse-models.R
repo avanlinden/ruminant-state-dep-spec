@@ -348,7 +348,6 @@ eq_cid4_sd20 <- hisse(
   sann = FALSE
 )
 
-
 eq_cid4_sd10 <- hisse(
   phy = tree,
   data = sd10data,
@@ -373,6 +372,7 @@ hisseObj <- Filter( ClassFilter, ls() )
 
 hisseList <- mget(hisseObj)
 
+
 ### Extract model params =========
 
 AIC.vector <- sapply(hisseList, "[[", "AIC")
@@ -394,7 +394,7 @@ chenHisseResults <- cbind(hisseObj, AIC.vector, AICc.vector, AICweights, corrWei
   mutate(
     modelType = case_when(
       str_detect(model, "null") ~ "null",
-      str_detect(model, "cid4") ~ "cid4",
+      str_detect(model, "bisse") ~ "bisse",
       str_detect(model, "hisse") ~ "hisse",
       str_detect(model, "cid2") ~ "cid2",
       TRUE ~ "cid4")
@@ -405,7 +405,7 @@ chenHisseResults <- cbind(hisseObj, AIC.vector, AICc.vector, AICweights, corrWei
     str_detect(model, "sd10") ~ "0.10",
     TRUE ~ NA_character_)
   ) %>% 
-  mutate(specRates = case_when(
+  mutate(transRates = case_when(
     str_detect(model, "eq") ~ "equal",
     TRUE ~ "vary")
   )
@@ -632,10 +632,10 @@ saveRDS(eq_null_sd20_rec, here("hisse-marginal-recons/chen-null-sd20-equal.rds")
 saveRDS(null_sd10_rec, here("hisse-marginal-recons/chen-null-sd10.rds"))
 saveRDS(eq_null_sd10_rec, here("hisse-marginal-recons/chen-null-sd10-equal.rds"))
 
-saveRDS(cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20.rds"))
-saveRDS(eq_cid4_sd20_rec, here("hisse-marginal-recons/chen-cid4-sd20-equal.rds"))
-saveRDS(cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10.rds"))
-saveRDS(eq_cid4_sd10_rec, here("hisse-marginal-recons/chen-cid4-sd10-equal.rds"))
+saveRDS(bisse_sd20_rec, here("hisse-marginal-recons/chen-bisse-sd20.rds"))
+saveRDS(eq_bisse_sd20_rec, here("hisse-marginal-recons/chen-bisse-sd20-equal.rds"))
+saveRDS(bisse_sd10_rec, here("hisse-marginal-recons/chen-bisse-sd10.rds"))
+saveRDS(eq_bisse_sd10_rec, here("hisse-marginal-recons/chen-bisse-sd10-equal.rds"))
 
 saveRDS(hisse_sd20_rec, here("hisse-marginal-recons/chen-hisse-sd20.rds"))
 saveRDS(eq_hisse_sd20_rec, here("hisse-marginal-recons/chen-hisse-sd20-equal.rds"))
