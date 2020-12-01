@@ -734,8 +734,28 @@ hisseReconObj <- Filter( ClassFilter, ls() )
 
 hisseReconList <- mget(hisseReconObj)
 
+sd10RecObj <- hisseReconObj[str_detect(hisseReconObj, "sd10")]
+
+sd20RecObj <- hisseReconObj[str_detect(hisseReconObj, "sd20")]
+
+sd10RecList <- mget(sd10RecObj)
+sd20RecList <- mget(sd20RecObj)
 
 ### Plot results ===============
 
-plot.hisse.states(hisseReconList, rate.param = "net.div", type = "phylogram", fsize = 0.8, width.factor = 0.4, legend = "none")
+#model average sd20
+
+pdf(file = here("figures/bibi-hisse-states-model-avg-sd20.pdf"), width = 8.5, height = 11)
+
+plot.hisse.states(sd20RecList, rate.param = "net.div", type = "phylogram", fsize = 0.6, width.factor = 0.4)
+
+dev.off()
+
+#model average sd10
+
+pdf(file = here("figures/bibi-hisse-states-model-avg-sd10.pdf"), width = 8.5, height = 11)
+
+plot.hisse.states(sd10RecList, rate.param = "net.div", type = "phylogram", fsize = 0.6, width.factor = 0.4)
+
+dev.off()
 
