@@ -371,16 +371,33 @@ hisseObj <- Filter( ClassFilter, ls() )
 
 hisseList <- mget(hisseObj)
 
+# separate by sdratio
+
+sd10_obj <- hisseObj[str_detect(hisseObj, "sd10")]
+
+sd20_obj <- hisseObj[str_detect(hisseObj, "sd20")]
+
+sd20List <- mget(sd20_obj)
+sd10List <- mget(sd10_obj)
+
 ### Extract model params =========
 
 AIC.vector <- sapply(hisseList, "[[", "AIC")
 AICc.vector <- sapply(hisseList, "[[", "AICc")
+
+AICc.sd20 <- sapply(sd20List, "[[", "AICc")
+AICc.sd10 <- sapply(sd10List, "[[", "AICc")
+
 
 ### Compute Model Weights ============
 
 AICweights<- GetAICWeights(hisseList, criterion = "AIC")
 
 corrWeights <- GetAICWeights(hisseList, criterion = "AICc")
+
+corrWeights20 <- GetAICWeights(sd20List, criterion = "AICc")
+
+corrWeights10 <- GetAICWeights(sd10List, criterion = "AICc")
 
 ### Combine params and weights =============
 
@@ -392,7 +409,7 @@ bibiHisseResults <- cbind(hisseObj, AIC.vector, AICc.vector, AICweights, corrWei
   mutate(
     modelType = case_when(
       str_detect(model, "null") ~ "null",
-      str_detect(model, "cid4") ~ "cid4",
+      str_detect(model, "bisse") ~ "bisse",
       str_detect(model, "hisse") ~ "hisse",
       str_detect(model, "cid2") ~ "cid2",
       TRUE ~ "cid4")
@@ -403,7 +420,7 @@ bibiHisseResults <- cbind(hisseObj, AIC.vector, AICc.vector, AICweights, corrWei
     str_detect(model, "sd10") ~ "0.10",
     TRUE ~ NA_character_)
   ) %>% 
-  mutate(specRates = case_when(
+  mutate(transRates = case_when(
     str_detect(model, "eq") ~ "equal",
     TRUE ~ "vary")
   )
@@ -411,12 +428,60 @@ bibiHisseResults <- cbind(hisseObj, AIC.vector, AICc.vector, AICweights, corrWei
 write_csv(bibiHisseResults, here("tidy-data/bibi-hisse-model-weights.csv"))
 
 bibiHisseResults %>% 
-  group_by(specRates) %>% 
+  group_by(sdratio) %>% 
   summarise(sumCorrWeights = sum(AICcorrWeights)) %>% 
   arrange(desc(sumCorrWeights))
 
 bibiHisseResults %>% 
   arrange(deltaAICc)
+
+### Combine for sdratio groups
+
+sd20_bibiHisseResults <- cbind(sd20_obj, AICc.sd20, corrWeights20) %>% 
+  as_tibble() %>% 
+  transmute(model = sd20_obj,AICc = as.numeric(AICc.sd20), AICcweights = as.numeric(corrWeights20)) %>% 
+  mutate(deltaAICc = AICc - min(AICc)) %>% 
+  mutate(
+    modelType = case_when(
+      str_detect(model, "null") ~ "null",
+      str_detect(model, "bisse") ~ "bisse",
+      str_detect(model, "hisse") ~ "hisse",
+      str_detect(model, "cid2") ~ "cid2",
+      TRUE ~ "cid4")
+  ) %>% 
+  mutate(transRates = case_when(
+    str_detect(model, "eq") ~ "equal",
+    TRUE ~ "vary")
+  )
+
+sd20_bibiHisseResults %>% 
+  arrange(deltaAICc)
+
+write_csv(sd20_bibiHisseResults, here("tidy-data/bibi-hisse-model-weights-sd20-only.csv"))
+
+#sd10
+
+sd10_bibiHisseResults <- cbind(sd10_obj, AICc.sd10, corrWeights10) %>% 
+  as_tibble() %>% 
+  transmute(model = sd10_obj,AICc = as.numeric(AICc.sd10), AICcweights = as.numeric(corrWeights10)) %>% 
+  mutate(deltaAICc = AICc - min(AICc)) %>% 
+  mutate(
+    modelType = case_when(
+      str_detect(model, "null") ~ "null",
+      str_detect(model, "bisse") ~ "bisse",
+      str_detect(model, "hisse") ~ "hisse",
+      str_detect(model, "cid2") ~ "cid2",
+      TRUE ~ "cid4")
+  ) %>% 
+  mutate(transRates = case_when(
+    str_detect(model, "eq") ~ "equal",
+    TRUE ~ "vary")
+  )
+
+sd10_bibiHisseResults %>% 
+  arrange(deltaAICc)
+
+write_csv(sd20_bibiHisseResults, here("tidy-data/bibi-hisse-model-weights-sd10-only.csv"))
 
 ### Average model parameters =================
 
