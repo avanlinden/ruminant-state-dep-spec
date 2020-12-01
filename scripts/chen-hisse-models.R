@@ -103,70 +103,70 @@ saveRDS(eq_null_sd20, here("hisse-output/chen-sd20-null-equal.rds"))
 
 saveRDS(eq_null_sd10, here("hisse-output/chen-sd10-null-equal.rds"))
 
-### cid4 models ====================
+### BiSSE models ====================
 
-# true cid4 model with two observed states 0 and 1, no hidden trates, two div rates, and two transition rates
+# true bisse model with two observed states 0 and 1, no hidden trates, two div rates, and two transition rates
 
-turnover.cid4 <- c(1,2)
-ef.cid4 <- c(1,1)
-f.cid4 <- c(1,1)
-trans.rates.cid4 <- TransMatMakerHiSSE(hidden.traits=0)
+turnover.bisse <- c(1,2)
+ef.bisse <- c(1,1)
+f.bisse <- c(1,1)
+trans.rates.bisse <- TransMatMakerHiSSE(hidden.traits=0)
 
-cid4_sd20 <- hisse(
+bisse_sd20 <- hisse(
   phy = tree,
   data = sd20data,
-  f = f.cid4,
-  turnover = turnover.cid4,
-  eps = ef.cid4,
+  f = f.bisse,
+  turnover = turnover.bisse,
+  eps = ef.bisse,
   hidden.states = FALSE,
-  trans.rate = trans.rates.cid4,
+  trans.rate = trans.rates.bisse,
   sann = FALSE
 )
 
-cid4_sd10 <- hisse(
+bisse_sd10 <- hisse(
   phy = tree,
   data = sd10data,
-  f = f.cid4,
-  turnover = turnover.cid4,
-  eps = ef.cid4,
+  f = f.bisse,
+  turnover = turnover.bisse,
+  eps = ef.bisse,
   hidden.states = FALSE,
-  trans.rate = trans.rates.cid4,
+  trans.rate = trans.rates.bisse,
   sann = FALSE
 )
 
-saveRDS(cid4_sd20, here("hisse-output/chen-sd20-cid4.rds"))
+saveRDS(bisse_sd20, here("hisse-output/chen-sd20-bisse.rds"))
 
-saveRDS(cid4_sd10, here("hisse-output/chen-sd10-cid4.rds"))
+saveRDS(bisse_sd10, here("hisse-output/chen-sd10-bisse.rds"))
 
-# cid4 model with equal transition rates
+# bisse model with equal transition rates
 
-eq.trans.rates.cid4 <- ParEqual(trans.rates.cid4, c(1,2))
+eq.trans.rates.bisse <- ParEqual(trans.rates.bisse, c(1,2))
 
-eq_cid4_sd20 <- hisse(
+eq_bisse_sd20 <- hisse(
   phy = tree,
   data = sd20data,
-  f = f.cid4,
-  turnover = turnover.cid4,
-  eps = ef.cid4,
+  f = f.bisse,
+  turnover = turnover.bisse,
+  eps = ef.bisse,
   hidden.states = FALSE,
-  trans.rate = eq.trans.rates.cid4,
+  trans.rate = eq.trans.rates.bisse,
   sann = FALSE
 )
 
-eq_cid4_sd10 <- hisse(
+eq_bisse_sd10 <- hisse(
   phy = tree,
   data = sd10data,
-  f = f.cid4,
-  turnover = turnover.cid4,
-  eps = ef.cid4,
+  f = f.bisse,
+  turnover = turnover.bisse,
+  eps = ef.bisse,
   hidden.states = FALSE,
-  trans.rate = eq.trans.rates.cid4,
+  trans.rate = eq.trans.rates.bisse,
   sann = FALSE
 )
 
-saveRDS(eq_cid4_sd20, here("hisse-output/chen-sd20-cid4-equal.rds"))
+saveRDS(eq_bisse_sd20, here("hisse-output/chen-sd20-bisse-equal.rds"))
 
-saveRDS(eq_cid4_sd10, here("hisse-output/chen-sd10-cid4-equal.rds"))
+saveRDS(eq_bisse_sd10, here("hisse-output/chen-sd10-bisse-equal.rds"))
 
 ### HiSSE models ================
 
