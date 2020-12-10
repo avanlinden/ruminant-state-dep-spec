@@ -14,6 +14,7 @@ chenModelPaths <- filePaths[str_detect(filePaths, "chen")]
 files <- list.files(here("hisse-output"))
 
 #create vector of names for models
+
 chenModelNames <- files[str_detect(files, "chen")] %>% 
   str_remove(".rds")
 
@@ -26,8 +27,8 @@ names(chenModelObjList) <- chenModelNames
 
 #separate based on sdratio
 
-sd20List <-  chenModelObjList[chenModelNames[str_detect(chenModelNames, "sd20")]]
-sd10List <- chenModelObjList[chenModelNames[str_detect(chenModelNames, "sd10")]]
+chensd20List <-  chenModelObjList[chenModelNames[str_detect(chenModelNames, "sd20")]]
+chensd10List <- chenModelObjList[chenModelNames[str_detect(chenModelNames, "sd10")]]
 
 ### Read in bibi model fits ============
 # list all files in output directory 
@@ -111,10 +112,9 @@ write_csv(bibisd10Results, here("tidy-data/bibi-hisse-model-weights-sd10-only.cs
 
 ### Extract parameter estimates from each model ===============
 
-sd20List[[1]]$solution
 
-chen_sd20_params <- map_dfr(sd20List, "solution", .id = "model") %>%
-  select(model, contains("turnover"), contains("eps0A")) %>%
+chen_sd20_params <- map_dfr(chensd20List, "solution", .id = "model") %>%
+  select(model, contains("turnover"), contains("eps0A"), contains("q")) %>%
   mutate(
     tree = "chen",
     sdratio = 0.2,
@@ -126,11 +126,13 @@ chen_sd20_params <- map_dfr(sd20List, "solution", .id = "model") %>%
       TRUE ~ "cid4"
     )
   ) %>%
-  mutate(across(starts_with("turnover"), ~na_if(.x, 0)))
+  mutate(across(starts_with("turnover"), ~na_if(.x, 0))) %>% 
+  mutate(across(starts_with("q"), ~na_if(.x, 0))) %>% 
+  pivot_longer(turnover0A:q1D1C, names_to = "rateParam", values_to = "rateEstimate")
   
    
-chen_sd10_params <- map_dfr(sd10List, "solution", .id = "model") %>%
-  select(model, contains("turnover"), contains("eps0A")) %>%
+chen_sd10_params <- map_dfr(chensd10List, "solution", .id = "model") %>%
+  select(model, contains("turnover"), contains("eps0A"), contains("q")) %>%
   mutate(
     tree = "chen",
     sdratio = 0.1,
@@ -142,11 +144,13 @@ chen_sd10_params <- map_dfr(sd10List, "solution", .id = "model") %>%
       TRUE ~ "cid4"
     )
   ) %>%
-  mutate(across(starts_with("turnover"), ~na_if(.x, 0)))
+  mutate(across(starts_with("turnover"), ~na_if(.x, 0))) %>% 
+  mutate(across(starts_with("q"), ~na_if(.x, 0))) %>% 
+  pivot_longer(turnover0A:q1D1C, names_to = "rateParam", values_to = "rateEstimate")
 
 
 bibi_sd20_params <- map_dfr(bibisd20List, "solution", .id = "model") %>%
-  select(model, contains("turnover"), contains("eps0A")) %>%
+  select(model, contains("turnover"), contains("eps0A"), contains("q")) %>%
   mutate(
     tree = "bibi",
     sdratio = 0.2,
@@ -158,10 +162,14 @@ bibi_sd20_params <- map_dfr(bibisd20List, "solution", .id = "model") %>%
       TRUE ~ "cid4"
     )
   ) %>%
-  mutate(across(starts_with("turnover"), ~na_if(.x, 0)))
+  mutate(across(starts_with("turnover"), ~na_if(.x, 0))) %>% 
+  mutate(across(starts_with("q"), ~na_if(.x, 0))) %>% 
+  pivot_longer(turnover0A:q1D1C, names_to = "rateParam", values_to = "rateEstimate")
+
+
 
 bibi_sd10_params <- map_dfr(bibisd10List, "solution", .id = "model") %>%
-  select(model, contains("turnover"), contains("eps0A")) %>%
+  select(model, contains("turnover"), contains("eps0A"), contains("q")) %>%
   mutate(
     tree = "bibi",
     sdratio = 0.1,
@@ -173,9 +181,41 @@ bibi_sd10_params <- map_dfr(bibisd10List, "solution", .id = "model") %>%
       TRUE ~ "cid4"
     )
   ) %>%
-  mutate(across(starts_with("turnover"), ~na_if(.x, 0)))
+  mutate(across(starts_with("turnover"), ~na_if(.x, 0))) %>% 
+  mutate(across(starts_with("q"), ~na_if(.x, 0))) %>% 
+  pivot_longer(turnover0A:q1D1C, names_to = "rateParam", values_to = "rateEstimate")
 
-allRateParams <- rbind(chen_sd20_params, chen_sd10_params, bibi_sd20_params, bibi_sd10_params)
+#allRateParams <- rbind(chen_sd20_params, chen_sd10_params, bibi_sd20_params, bibi_sd10_params)
+
+longRateParams <- rbind(chen_sd20_params, chen_sd10_params, bibi_sd20_params, bibi_sd10_params)
+
+write_csv(longRateParams, here("tidy-data/long-model-fit-rate-params.csv"))
 
 
-write_csv(allRateParams, here("tidy-data/all-model-fit-rate-params.csv"))
+bibi_20_top_params_cid4_eq <- longRateParams %>% 
+  dplyr::filter(tree == "bibi" & sdratio == 0.2 & modelType == "cid4" & str_detect(model, "equal")) %>% 
+  pivot_wider(names_from = rateParam, values_from = rateEstimate)
+
+bibi_10_top_params_cid4_eq <- longRateParams %>% 
+  dplyr::filter(tree == "bibi" & sdratio == 0.1 & modelType == "cid4" & str_detect(model, "equal")) %>% 
+  pivot_wider(names_from = rateParam, values_from = rateEstimate)
+
+chen_20_top_params_bisse_vary <- longRateParams %>% 
+  dplyr::filter(tree == "chen" & sdratio == 0.2 & modelType == "bisse" & !str_detect(model, "equal")) %>% 
+  pivot_wider(names_from = rateParam, values_from = rateEstimate)
+
+chen_20_top_params_bisse_eq <- longRateParams %>% 
+  dplyr::filter(tree == "chen" & sdratio == 0.2 & modelType == "bisse" & str_detect(model, "equal")) %>% 
+  pivot_wider(names_from = rateParam, values_from = rateEstimate)
+
+chen_10_top_params_bisse_eq <-longRateParams %>% 
+  dplyr::filter(tree == "chen" & sdratio == 0.1 & modelType == "bisse" & str_detect(model, "equal")) %>% 
+  pivot_wider(names_from = rateParam, values_from = rateEstimate)
+
+chen_10_top_params_bisse_vary <-longRateParams %>% 
+  dplyr::filter(tree == "chen" & sdratio == 0.1 & modelType == "bisse" & !str_detect(model, "equal")) %>% 
+  pivot_wider(names_from = rateParam, values_from = rateEstimate)
+
+topParamEst <- rbind(bibi_20_top_params_cid4_eq, bibi_10_top_params_cid4_eq, chen_20_top_params_bisse_eq, chen_20_top_params_bisse_vary, chen_10_top_params_bisse_vary, chen_20_top_params_bisse_eq)
+
+write_csv(topParamEst, here("tidy-data/top-model-parameter-estimates.csv"))
