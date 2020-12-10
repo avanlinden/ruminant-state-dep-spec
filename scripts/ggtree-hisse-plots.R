@@ -7,6 +7,7 @@ library(gghisse)
 library(LaCroixColoR)
 library(ggpubr)
 library(ggnewscale)
+library(tidyverse)
 
 ### get treedata object with model averaged rate and state data ===========
 
@@ -40,6 +41,16 @@ bibiProc20 <- h_process_recon(bibi_sd20RecList)[[1]] #needed this for ggtree/ape
 #bibiProc20 <- h_process_recon(bibi_sd20RecList) #need this for gghisse plot functions
 
 ### plot tree with pies at nodes for states =========
+
+#plot plain tree with no data, with tip names
+
+ggtree(bibiProc20@phylo) +
+  geom_tiplab(size = 1.7) +
+  coord_cartesian(clip = "off") +
+  theme_tree2(plot.margin = margin(6, 120, 6, 6))
+
+ggsave(here("figures/bibi-base-tree-with-tip-names.pdf"))
+
 
 #get nodes likelihoods as df
 
@@ -126,6 +137,16 @@ chenNodes20 <- chenProc20@data %>%
 
 pieCols <- c("white", "black")
 names(pieCols) <- c("monomorphic", "dimorphic")
+
+
+#plain tree with tip names 
+
+ggtree(chenProc20@phylo) +
+  geom_tiplab(size = 2) +
+  coord_cartesian(clip = "off") +
+  theme_tree2(plot.margin = margin(6, 120, 6, 6))
+
+ggsave(here("figures/chen-base-tree-with-tip-names.pdf"))
 
 #create node pies using my function which doesn't suck
 source(here("scripts/better-nodepie-function.R"))
