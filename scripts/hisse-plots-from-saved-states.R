@@ -37,7 +37,7 @@ library(LaCroixColoR)
 
 #model average sd20
 
-#pdf(file = here("figures/chen-hisse-states-model-avg-sd20.pdf"), width = 8.5, height = 11)
+pdf(file = here("figures/chen-hisse-states-model-avg-sd20.pdf"), width = 8, height = 8)
 
 plot.hisse.states(
   chen_sd20RecList,
@@ -55,9 +55,9 @@ plot.hisse.states(
   #legend.position = c(0, 0.4, 0, 0.4),
   legend.bg = "lightgrey"
 )
-title(main = "Chen 2019 WGS tree - 20% dimorphic", adj = 0)
+title(main = "Chen Tree 20% SDRatio", adj = 0, cex = 0.5)
 
-#dev.off()
+dev.off()
 
 #model average sd10
 
@@ -148,7 +148,7 @@ bibi_sd10RecList <- bibiRecObjList[bibiRecNames[str_detect(bibiRecNames, "sd10")
 
 #model average sd20
 
-#pdf(file = here("figures/bibi-hisse-states-model-avg-sd20.pdf"), width = 8.5, height = 11)
+pdf(file = here("figures/bibi-hisse-states-model-avg-sd20.pdf"), width = 8, height = 8)
 
 plot.hisse.states(
   bibi_sd20RecList,
@@ -166,11 +166,9 @@ plot.hisse.states(
   #legend.position = c(0, 0.4, 0, 0.4),
   legend.bg = "lightgrey"
 )
-title(main = "Bibi 2013 mtGenome tree - 20% dimorphic", adj = 0)
+title(main = "Bibi Tree 20% SDRatio", adj = 0, cex = 0.5)
 
-
-
-#dev.off()
+dev.off()
 
 #model average sd10
 

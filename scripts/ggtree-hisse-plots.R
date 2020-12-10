@@ -37,7 +37,7 @@ bibi_sd20RecList <-  bibiRecObjList[bibiRecNames[str_detect(bibiRecNames, "sd20"
 
 bibiProc20 <- h_process_recon(bibi_sd20RecList)[[1]] #needed this for ggtree/ape
 
-bibiProc20 <- h_process_recon(bibi_sd20RecList) #need this for gghisse
+#bibiProc20 <- h_process_recon(bibi_sd20RecList) #need this for gghisse plot functions
 
 ### plot tree with pies at nodes for states =========
 
@@ -56,8 +56,8 @@ names(pieCols) <- c("monomorphic", "dimorphic")
 
 #create node pies using my function which doesn't suck
 source(here("scripts/better-nodepie-function.R"))
-pies <- nodepie2(bibiNodes20, cols = 2:3, line_color = "black")
-pies <- lapply(pies, function(g) g + scale_fill_manual(values = pieCols))
+bibi_pies <- nodepie2(bibiNodes20, cols = 2:3, line_color = "black")
+bibi_pies <- lapply(bibi_pies, function(g) g + scale_fill_manual(values = pieCols))
 
 #designate tip colors
 tipCols = c("0" = "white", "1" = "black")
@@ -65,10 +65,10 @@ tipCols = c("0" = "white", "1" = "black")
 #plot tree with branches colored by div rate, pies as insets, and states as tippoints
 
 ggtree(bibiProc20@phylo, aes(color = bibiProc20@data$net.div), size = 1.5) +
-  scale_color_gradientn(colors = rev(c(
+  scale_color_gradientn(limits = c(0.0, 0.25), colors = rev(c(
     lacroix_palette("CranRaspberry", n = 6, type = "continuous")
   ))) +
-  geom_inset(pies,
+  geom_inset(bibi_pies,
              width = 0.03,
              height = 0.03,
              hjust = 0.1) +
@@ -130,6 +130,63 @@ names(pieCols) <- c("monomorphic", "dimorphic")
 #create node pies using my function which doesn't suck
 source(here("scripts/better-nodepie-function.R"))
 chen_pies <- nodepie2(chenNodes20, cols = 2:3, line_color = "black")
-chen_pies <- lapply(pies, function(g) g + scale_fill_manual(values = pieCols))
+chen_pies <- lapply(chen_pies, function(g) g + scale_fill_manual(values = pieCols))
 
-  
+# plot rate tree with nodepies and tippoints
+
+ggtree(chenProc20@phylo, aes(color = chenProc20@data$net.div), size = 1.5) +
+  scale_color_gradientn(limits = c(0.0, 0.25), colors = rev(c(
+    lacroix_palette("CranRaspberry", n = 6, type = "continuous")
+  ))) +
+  geom_inset(chen_pies,
+             width = 0.03,
+             height = 0.03,
+             hjust = 0.1) +
+  labs(color = "div rate") +
+  ggnewscale::new_scale_color() +
+  geom_tippoint(size = 1.8, position = position_nudge(x = 0.5, y = 0)) +
+  scale_fill_manual(values = "black") +
+  ggnewscale::new_scale_color() +
+  geom_tippoint(aes(color = as.factor(chenProc20@data$state)),
+                size = 1,
+                position = position_nudge(x = 0.5, y = 0)) +
+  scale_color_manual(values = tipCols) +
+  labs(color = "state", title = "Chen Tree with 20% SexDimorph Ratio")
+
+ggsave(here("figures/chen-sd20-ggtree-rates-pies.png"))
+
+#### gghisse rates plots ===============
+
+bibiProc20_full <- h_process_recon(bibi_sd20RecList)
+
+h_scatterplot(bibiProc20_full,
+              parameter = "net.div",
+              states_names = c("monomorphic", "dimorphic"),
+              colors = c("black", "white")) +
+  ylim(0, 0.25)
+
+ggsave(here("figures/bibi-rates-scatter.png"))
+
+
+chenProc20_full <- h_process_recon(chen_sd20RecList)
+
+h_scatterplot(chenProc20_full,
+              parameter = "net.div",
+              states_names = c("monomorphic", "dimorphic"),
+              colors = c("black", "white")) +
+  ylim(0, 0.25)
+
+ggsave(here("figures/chen-rates-scatter.png"))
+
+
+
+
+
+
+
+
+
+
+
+
+
